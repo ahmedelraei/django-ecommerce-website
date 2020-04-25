@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>E-Commerce Template</title>
+        <link rel="stylesheet" href="{% static 'site_static/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/Chart.min.css'%}">
+
+    </head>
+    
+    <body>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h1>Hello World</h1>
+                <canvas id="mychart"></canvas>
+            </div>
+        </div>
+
+        <script src="{% static 'site_static/js/jquery-3.4.1.min.js'%}"></script>
+        <script src="{% static 'site_static/js/popper.min.js'%}"></script>
+        <script src="{% static 'site_static/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'site_static/js/Chart.min.js'%}"></script>
+        <script>
+
+            var config = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: {{ data|safe }},
+                        backgroundColor: [
+                            'red','blue','green','purple','cyan'
+                        ],
+                        label: 'example'
+                    }],
+                    labels: {{ labels|safe }}
+                },
+                options: {
+                    responsive: true
+                }
+            };
+            window.onload = function() {
+                var ctx = document.getElementById('mychart').getContext('2d');
+                window.MyPie = new Chart(ctx, config);
+            };
+
+        </script>
+    </body>
+
+</html>

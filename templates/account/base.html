@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+
+<main class="container">
+    <div class="container my-5 py-5 z-depth-1">
+      <!--Section: Content-->
+      <section class="px-md-5 mx-md-5 text-center text-lg-left dark-grey-text">
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center">
+  
+          <!--Grid column-->
+          <div class="col-md-6">
+            
+            {% block content %}
+                
+            {% endblock content %}
+                
+            </div>
+          </div>
+        </section>
+      </div>
+  </main>
+    
+{% endblock body %}
+    

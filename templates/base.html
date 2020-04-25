@@ -1,0 +1,226 @@
+{% load static %}
+{% load cart_template_tag %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'site_static/icons/all.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/mdb.min.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/main.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/animate.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/lightslider.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/glide.core.min.css'%}">
+        <link rel="stylesheet" href="{% static 'site_static/css/glide.theme.min.css'%}">
+        <title>{% block head_title %}{% endblock %}</title>
+        {% block extra_head %}
+        {% endblock %}
+
+    </head>
+  
+    <body>
+    
+
+        <!-- Start Upper-NavBar-->
+
+        <nav class="nav upper-nav animated fadeInRightBig">
+          <a class="nav-link active" href="#">Privacy Policy</a>
+          <a class="nav-link" href="#">Tracking Order</a>
+          <a class="nav-link" href="#">Support</a>
+        </nav>
+
+        <!-- End Upper-NavBar-->
+
+        <!-- Start NavBar-->
+        <nav id="main-navbar" class="navbar main-nav navbar-expand-lg navbar-light animated delay-1s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
+            <a class="navbar-brand" href="/"><span>e</span><span>Commerce</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+              <form class="form-inline my-2 my-lg-0 ml-auto main-search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+              </form>
+                <ul class="navbar-nav mr-5">
+                  
+                  {% if request.user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/cart">
+                      <span class="badge red z-depth-1 mr-3 float-left">{{request.user|cartItemCount}}</span>
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-user-circle"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'account_logout' %}">
+                        <i class="fas fa-user-circle"></i></i>Profile
+                      </a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'account_logout' %}">
+                        <i class="fas fa-user-plus mr-2"></i>logout
+                      </a>
+                    </div>
+                    </li>                 
+                  {% else %}
+                  <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'account_login' %}">
+                      <i class="fas fa-sign-in-alt mr-2"></i>
+                      Log in</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account_signup' %}">
+                      <i class="fas fa-user-plus mr-2"></i>
+                      Sign up</a>
+                  </div>
+                  </li>
+                  {% endif %}
+
+                </ul>
+            </div>
+        </nav>
+
+        <!-- End NavBar-->
+
+        <!-- Start Category Menu -->
+        <nav class="navbar cat-nav navbar-expand-lg navbar-light animated delay-2s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
+          <div class="collapse navbar-collapse" id="mainNav">
+            <div class="row">
+              <ul class="navbar-nav mr-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Mobiles</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Laptops</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">PCs</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Gaming</a>
+                </li>
+              </ul>
+            </div>
+          
+          </div>
+      </nav>
+      <!-- End Category Menu -->
+
+      {% if messages %}
+ 
+      {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissable fade show" role="alert">
+          {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+  
+
+      {% block body %}
+        
+      {% endblock body %}
+
+      {% block extra_body %}
+      {% endblock %}
+
+        <!-- Start Footer -->
+
+      <div class="footer mt-5 animated delay-2s fadeInUpBig">
+        <div class="container">
+          
+            <div class="row">
+                <div class="col-lg-4 mr-5">
+                  <div class="info">
+                    <h2><span>e</span><span>Commerce</span></h2>
+                    <p>This eCommerce Template Which will be coded later by python in django framework</p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="popular-searches">
+                    <div class="row">
+                      <div class="col">
+                        <ul class="list-unstyled">
+                          <li>Mobiles</li>
+                          <li>Men Clothing</li>
+                          <li>Laptops</li>
+                          <li>Perfumes</li>
+                          <li>Gaming</li>
+                        </ul>
+                      </div>
+                      <div class="col">
+                        <ul class="list-unstyled">
+                          <li>T-shirts</li>
+                          <li>Toys</li>
+                          <li>Samsung</li>
+                          <li>Perfumes</li>
+                          <li>Gaming</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="customer-care">
+                    customer
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <!-- End Footer --> 
+
+      <!-- Start Lower Footer -->
+      <div class="lower-footer animated delay-2s fadeInLeftBig">
+        <div class="container">
+          <div class="row">
+            <span>Developer: <strong>Ahmed Hatem</strong> | All content and Images Copyright © 2020 <b>Ahmed Hatem</b></span>
+
+          </div>
+        </div>
+      </div>
+        <!-- End Lower Footer --> 
+
+        <script src="{% static 'site_static/js/jquery-3.4.1.min.js'%}"></script>
+        <script src="{% static 'site_static/js/popper.min.js'%}"></script>
+        <script src="{% static 'site_static/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'site_static/js/mdb.min.js'%}"></script>
+        <script src="{% static 'site_static/js/main.js'%}"></script>
+        <script defer src="{% static 'site_static/icons/js/all.js'%}"></script>
+        <script src="{% static 'site_static/js/wow.min.js'%}"></script>
+        <script src="{% static 'site_static/js/lightslider.js'%}"></script>
+        <script src="{% static 'site_static/js/glide.min.js'%}"></script>
+
+        <script>
+            new WOW().init();
+        </script>
+        <script>
+          const config = {
+            type: 'slider',
+            startAt: 0,
+            perView: 4,
+            autoplay: true | 2000,
+            breakpoints: {
+              800: {
+                perView: 2
+              },
+            }
+
+          }
+          new Glide('.glide',config).mount();
+          new Glide('.glide2',config).mount();
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,178 @@
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from django.utils.text import slugify
+from django.urls import reverse
+from django.conf import settings
+from project.settings import BASE_DIR
+from django_countries.fields import CountryField
+
+class Product(models.Model):
+    PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
+    PRDcategory = models.ForeignKey('Category', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
+    PRDbrand    = models.ForeignKey('settings.Brand',on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Brand"))
+    PRDdesc  = models.TextField(verbose_name=_("Description"))
+    PRDdetails = models.TextField(verbose_name=_("Details"),blank=True, null=True)
+    PRDshipping_notes = models.TextField(verbose_name=_("Shipping Details"),blank=True, null=True)
+    PRDshipping_regions = CountryField(verbose_name=_("Shipping Regions"))
+    PRDimage = models.ImageField(upload_to='productimg/',verbose_name=_("Image:"),blank=True, null=True)
+    PRDprice = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Price:"))
+    PRDdiscount = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("After Discount:") ,default=0)    
+    PRDcost  = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Cost:"))
+    stock_quantity = models.IntegerField(default=1,verbose_name=_("In Stock:"))
+    PRDcreated = models.DateTimeField(verbose_name=_("Created at:"))
+    PRDslug    = models.SlugField(unique=True,blank=True, null=True, verbose_name=_("URL:"))
+    PRDisNew = models.BooleanField(default=True, verbose_name=_("NEW:"))
+    PRDisTrend = models.BooleanField(default=False,verbose_name=_("Trending:"))
+    def save(self, *args, **kwargs):
+        if not self.PRDslug:
+            self.PRDslug = slugify(self.PRDname)
+            super(Product,self).save(*args, **kwargs)
+        else:
+            super(Product,self).save(*args, **kwargs)
+            
+    class Meta:
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
+
+    def get_absolute_url(self):
+        return reverse("products:product_details", kwargs={"slug": self.PRDslug})
+    
+    def get_addToCart_url(self):
+        return reverse("products:add-to-cart", kwargs={"slug": self.PRDslug})
+
+    def get_removeFromCart_url(self):
+        return reverse("products:remove-from-cart", kwargs={"slug": self.PRDslug})
+
+    def getPrice(self):
+        if self.PRDdiscount:
+            return self.PRDdiscount
+        else:
+            return self.PRDprice
+
+    def GetMainimg(self):
+        if self.PRDimage:
+            return self.PRDimage.url
+        else:
+            return os.path.join("static/site_static/img/default.png")
+
+    def __str__(self):
+        return self.PRDname
+
+class ProductImage(models.Model):
+    PRD = models.ForeignKey(Product , on_delete=models.CASCADE,verbose_name=_("Product:"),blank=True, null=True)
+    PRDImage = models.ImageField(upload_to='productimg/',verbose_name=_("Image:"),blank=True, null=True)
+    
+    def __str__(self):
+        return str(self.PRD)
+
+class MainSlider(models.Model):
+    SDRimg = models.ImageField(upload_to='MainSlider/',verbose_name=_("Slide:"))
+
+    class Meta:
+        verbose_name = _("Slide")
+        verbose_name_plural = _("Main Slider")
+
+    def __str__(self):
+        title = "Slide | " + str(self.SDRimg).split("/")[1]
+        return title
+
+class Category(models.Model):
+    CATname = models.CharField(max_length=50,verbose_name=_("Name:"),blank=False, null=False)
+    CATparent  = models.ForeignKey('self',limit_choices_to={'CATparent__isnull':True},on_delete=models.CASCADE,verbose_name=_("Main Category:"),blank=True, null=True)
+    CATdesc  = models.TextField()
+    CATimg   = models.ImageField(upload_to='category/',blank=True, null=True)
+    CATslug  = models.SlugField(unique=True,blank=True, null=True, verbose_name=_("URL:"))
+
+
+    def save(self, *args, **kwargs):
+        if not self.CATslug:
+            self.CATslug = slugify(self.CATname)
+            super(Category,self).save(*args, **kwargs)
+        else:
+            super(Category,self).save(*args, **kwargs)
+            
+
+    class Meta:
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
+
+
+    def get_absolute_url(self):
+        return reverse("products:category", kwargs={"slug": self.CATslug})
+
+
+    def __str__(self):
+        return self.CATname
+
+
+class Product_Alternatives(models.Model):
+    PALproduct = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="main_product",verbose_name=_("Product:"))
+    PALalternatives = models.ManyToManyField(Product,related_name="alternative_products",verbose_name=_("Alternative Product:"))
+
+    
+
+    class Meta:
+        verbose_name = _("Product Alternative")
+        verbose_name_plural = _("Product Alternatives")
+
+    def __str__(self):
+        return str(self.PALproduct)
+
+class Product_Accessories(models.Model):
+    PACCproduct = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="mainAccessory_product",verbose_name=_("Main Accessory:"))
+    PACCaccessories = models.ManyToManyField(Product,related_name="accessories_products",verbose_name=_("Accessories Products:"))
+    
+
+    class Meta:
+        verbose_name = _("Product Accessory")
+        verbose_name_plural = _("Product Accessories")
+
+    def __str__(self):
+        return str(self.PACCproduct)
+
+class OrderItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL ,
+    on_delete=models.CASCADE, verbose_name=_("User"))
+    ordered = models.BooleanField(default=False,verbose_name=_("Order State"))   
+    item = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    
+    def __str__(self):
+        return f"{self.quantity} of {self.item.PRDname}"
+
+    def getTotalDiscountItemPrice(self):
+        return self.quantity * self.item.PRDdiscount
+
+    def getTotalItemPrice(self):
+        return self.quantity * self.item.PRDprice
+
+    def getFinalPrice(self):
+        if self.item.PRDdiscount:
+            return self.getTotalDiscountItemPrice()
+        else:
+            return self.getTotalItemPrice()
+    
+    def getSavedPercent(self):
+        saved_percent = 100 - round((self.item.PRDdiscount/self.item.PRDprice)*100)
+        saved = str(saved_percent) + "%"
+        return saved
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL ,
+    on_delete=models.CASCADE , verbose_name=_("User"))
+    items = models.ManyToManyField(OrderItem ,verbose_name=_("Products"))
+    listed_date = models.DateTimeField(auto_now_add=True , verbose_name=_("Listed Date"))
+    ordered_date = models.DateTimeField(verbose_name=_("Ordered Date"))
+    ordered = models.BooleanField(default=False,verbose_name=_("Order State"))
+
+    def __str__(self):
+        return self.user.username
+    def getTotal(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.getFinalPrice()
+        return total
+
+## IMAGES
+## Alternatives
+## Accessories

@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+  <!--Start Slider-->
+  <div class="slider">
+    <div id="main-slider" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          {% for slide in slider %}
+          <li data-target="#main-slider" 
+          {% if forloop.first %}class="active"{% endif %} data-slide-to="{{forloop.counter0}}"></li>
+          {% endfor %}
+          
+        </ol>
+        <div class="carousel-inner">
+            {% comment %}
+            <h1 class="animated delay-2s fadeInLeftBig">{{slider.SDRtitle}}</h1>
+            <div class="overlay" ></div>
+            {% endcomment %}
+            {% for slide in slider %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{slide.SDRimg.url}}" class="d-block w-100 h-100" alt="first slide">
+            </div>
+            {% endfor %}
+
+
+        </div>
+      </div>
+  </div>
+  <!--End Slider-->
+
+  <!-- Items Slider -->
+  <div class="items-slider">
+    <div class="container">
+      <h2 class="mt-5 mb-3"><center>New <b>Arrivals</b></center></h2>
+      <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            {% for product in products  %}
+            
+            {% if product.PRDisNew %}
+            <li class="glide__slide">
+              <div class="card slider-card">
+                <img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product">
+                <div class="card-body">
+                    <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
+                    <center><h4 class="card-title">{{product.PRDname}}</h4></center>
+                    <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
+                    <center><a href="#" class="btn btn-primary">Add to Cart</a></center>
+
+                </div>
+            </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="glide__arrows" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i class="fas fa-chevron-left"></i></button>
+          <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Items Slider -->
+
+  <!-- Start Categories-->
+  <div class="categories">
+    <div class="container my-5">
+
+      <!-- Section: Block Content -->
+      <section>
+        
+        <style>
+          .rgba-black-gradient {
+            background: linear-gradient(to top, rgba(0,0,0,.8) 55%,rgba(0,0,0,0) 100%);
+          }
+        </style>
+    
+        <!-- Grid row -->
+        <div class="row">
+    
+          <!-- Grid column -->
+          {% for cat in cats %}
+          <div class="col-md-6 col-sm-12">
+    
+            <div class="view zoom z-depth-1 rounded mb-4">
+              <a href="">
+                {% if cat.CATimg %}
+                <img src="{{cat.CATimg.url}}" class="cat-img img-fluid" alt="{{cat.CATname}}">
+                {% else %}
+                <img src="{% static 'site_static/img/default.png' %}" class="img-fluid" alt="{{cat.CATname}}">
+                {% endif %}   
+                <div class="mask rgba-black-gradient d-md-flex align-items-end">
+                  <div class="text-bottom white-text p-4">
+                    <span class="badge badge-danger">Popular</span>
+                    <h3 class="card-title font-weight-bold mt-2 mb-1">{{cat.CATname}}</h3>
+                    <p class="font-weight-normal mb-2">{{cat.CATdesc}}</p>
+                    <button class="btn btn-danger btn-sm btn-rounded mx-0 mb-0 d-none d-sm-inline-block">Read more</button>
+                  </div>
+                </div>
+              </a>
+            </div>
+    
+          </div>
+          <!-- Grid column --> 
+          {% endfor %}
+         
+        </div>
+        <!-- Grid row -->
+    
+      </section>
+      <!-- Section: Block Content -->
+    
+    </div>
+  </div>
+
+  <!-- End Categories-->
+
+
+
+  <!-- Start Trending -->
+  <div class="items-slider trending">
+    <div class="container">
+      <h2 class="mt-5 mb-3"><center><span>Trend</span><b>ing</b></center></h2>
+      <div class="glide glide2">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            {% for product in products  %}
+            {% if product.PRDisTrend %}
+            <li class="glide__slide">
+              <div class="card slider-card">
+                <img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product">
+                <div class="card-body">
+                    <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
+                    <center><h4 class="card-title">{{product.PRDname}}</h4></center>
+                    <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
+                    <center><a href="#" class="btn btn-primary">Add to Cart</a></center>
+
+                </div>
+            </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+          </ul>
+        </div>
+        <div class="glide__arrows" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left" data-glide-dir="<"><i class="fas fa-chevron-left"></i></button>
+          <button class="glide__arrow glide__arrow--right" data-glide-dir=">"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>        
+  <!-- End Trending -->
+
+
+{% endblock body %}
+      
+
+        

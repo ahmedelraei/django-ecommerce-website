@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<main class="m-5">
+  <div class="conatiner">
+    <div class="table-responsive-sm">
+        <table class="table">
+            <h1 class="text-center">Cart</h1>
+            <thread>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Item Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Item Price</th>
+                </tr>
+            </thread>
+            <tbody>
+            {% for order_item in object.items.all %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>
+                        <a href="{{order_item.item.get_absolute_url}}">
+                            <img style="max-width:200px;height:100px;
+                            object-fit: cover;"
+                            src="{{order_item.item.PRDimage.url}}"/>
+                        </a>
+                    </td>
+                    <td>{{order_item.item.PRDname}}</td>
+                    <td><del>{{order_item.item.PRDprice}}</del>
+                        {{order_item.item.PRDdiscount}}
+                    </td>
+                    <td>
+                        <a href="{% url 'products:decrease-cart' order_item.item.PRDslug %}"><i class="fas fa-minus mr-2"></i></a>
+                        {{order_item.quantity}}
+                        <a href="{% url 'products:increase-cart' order_item.item.PRDslug %}"><i class="fas fa-plus ml-2"></i></a>
+                    </td>
+                    <td>
+                        {% if order_item.item.PRDdiscount %}
+                            ${{order_item.getTotalDiscountItemPrice}}
+                            <span class="badge badge-danger">Saving {{order_item.getSavedPercent}}</span>
+                        {% else %}
+                            ${{order_item.getFinalPrice}}
+                        {% endif %}
+                        <a href="{% url 'products:remove-from-cart' order_item.item.PRDslug%}">
+                            <i style="color:red;" class="fas fa-trash mr-2 float-right"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            
+            {% empty %}
+
+            <tr>
+                <td colspan="6">Your cart is empty</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+                </td>
+            </tr>
+
+            {% endfor %}
+            
+            {% if object.getTotal %}                  
+            <tr>
+                <td colspan="5"><b style="font-size:20px;">Total:</b></td>
+                <td colspan="6"><b style="font-size:20px;">
+                    <span style="font-weight:bolder;">
+                        ${{object.getTotal}}
+                    </span></b></td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <a class="btn btn-primary float-right ml-2" href="#">Checkout</a>
+                    <a class="btn btn-primary float-right" href="/">Continue Shopping</a>
+                </td>
+            </tr>  
+            {% endif %}
+
+            </tbody>
+        </table>
+      </div>
+  </div>
+</main>
+{% endblock body %}
+      
+
+        
