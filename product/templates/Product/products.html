@@ -186,7 +186,7 @@
                         <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
                         <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></center></a>
                         <center><h4 class="item-price"><strong>{{product.PRDprice}}</strong></h4></center>
-                        <center><a href="#" class="btn btn-primary">Add to Cart</a></center>
+                        <center><a href="{{product.get_addToCart_url}}" class="btn btn-primary">Add to Cart</a></center>
     
                     </div>
                   </div>

@@ -1,558 +1,204 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>E-Commerce Template</title>
-        <link rel="stylesheet" href="icons/all.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/mdb.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/animate.css">
-        <link rel="stylesheet" href="css/lightslider.css">
-        <link rel="stylesheet" href="css/glide.core.min.css">
-        <link rel="stylesheet" href="css/glide.theme.min.css">
+{% extends 'base.html' %}
+{% load cart_template_tag %}
 
+{% block body %}
+<main class="mt-2 pt-4">
+  <div class="container wow fadeIn">
 
-    </head>
-    
-    <body>
+    <!-- Heading -->
+    <h2 class="my-5 h2 text-center">Checkout form</h2>
 
-        <!-- Start Upper-NavBar-->
+    <!--Grid row-->
+    <div class="row">
 
-        <nav class="nav upper-nav animated fadeInRightBig">
-          <a class="nav-link active" href="#">Privacy Policy</a>
-          <a class="nav-link" href="#">Tracking Order</a>
-          <a class="nav-link" href="#">Support</a>
-        </nav>
+      <!--Grid column-->
+      <div class="col-md-8 mb-4">
 
-        <!-- End Upper-NavBar-->
+        <!--Card-->
+        <div class="card">
 
-        <!-- Start NavBar-->
-        <nav id="main-navbar" class="navbar main-nav navbar-expand-lg navbar-light animated delay-1s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
-            <a class="navbar-brand" href="#"><span>e</span><span>Commerce</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-              <form class="form-inline my-2 my-lg-0 ml-auto main-search">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-              </form>
-                <ul class="navbar-nav mr-5">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i>
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt mr-2"></i>Log in</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fas fa-user-plus mr-2"></i>Sign up</a>
-                      </div>
-                    </li>
-                </ul>
+          <!--Card content-->
+          <form class="card-body">
+
+            <!--address-->
+            <div class="md-form mb-5">
+              <input type="text" id="address" class="form-control" placeholder="1234 Main St">
+              <label for="address" class="">Address</label>
             </div>
-        </nav>
 
-        <!-- End NavBar-->
+            <!--address-2-->
+            <div class="md-form mb-5">
+              <input type="text" id="address-2" class="form-control" placeholder="Apartment or suite">
+              <label for="address-2" class="">Address 2 (optional)</label>
+            </div>
 
-        <!-- Start Category Menu -->
-        <nav class="navbar cat-nav navbar-expand-lg navbar-light animated delay-2s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
-          <div class="collapse navbar-collapse" id="mainNav">
+            <!--Grid row-->
             <div class="row">
-              <ul class="navbar-nav mr-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mobiles</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Laptops</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">PCs</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Gaming</a>
-                </li>
-              </ul>
-            </div>
-          
-          </div>
-      </nav>
-      <!-- End Category Menu -->
 
-      <div class="container mt-5">
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-12 mb-4">
 
-
-        <!--Section: Content-->
-        <section class="dark-grey-text">
-      
-            <div class="card">
-            <div class="card-body">
-      
-              <!--Grid row-->
-              <div class="row">
-      
-                <!--Grid column-->
-                <div class="col-lg-8">
-      
-                  <!-- Pills navs -->
-                  <ul class="nav md-pills nav-justified pills-primary font-weight-bold">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#tabCheckoutBilling123" role="tab">1. Billing</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#tabCheckoutAddons123" role="tab">2. Addons</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#tabCheckoutPayment123" role="tab">3. Payment</a>
-                    </li>
-                  </ul>
-      
-                  <!-- Pills panels -->
-                  <div class="tab-content pt-4">
-      
-                    <!--Panel 1-->
-                    <div class="tab-pane fade in show active" id="tabCheckoutBilling123" role="tabpanel">
-      
-                      <!--Card content-->
-                      <form>
-      
-                        <!--Grid row-->
-                        <div class="row">
-      
-                          <!--Grid column-->
-                          <div class="col-md-6 mb-4">
-      
-                            <!--firstName-->
-                            <label for="firstName" class="">First name</label>
-                            <input type="text" id="firstName" class="form-control">
-      
-                          </div>
-                          <!--Grid column-->
-      
-                          <!--Grid column-->
-                          <div class="col-md-6 mb-2">
-      
-                            <!--lastName-->
-                            <label for="lastName" class="">Last name</label>
-                            <input type="text" id="lastName" class="form-control">
-      
-                          </div>
-                          <!--Grid column-->
-      
-                        </div>
-                        <!--Grid row-->
-      
-                        <!--Username-->
-                        <div class="input-group mb-4">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">@</span>
-                          </div>
-                          <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
-                        </div>
-      
-                        <!--email-->
-                        <label for="email" class="">Email (optional)</label>
-                        <input type="text" id="email" class="form-control mb-4" placeholder="youremail@example.com">
-      
-                        <!--address-->
-                        <label for="address" class="">Address</label>
-                        <input type="text" id="address" class="form-control mb-4" placeholder="1234 Main St">
-      
-                        <!--address-2-->
-                        <label for="address-2" class="">Address 2 (optional)</label>
-                        <input type="text" id="address-2" class="form-control mb-4" placeholder="Apartment or suite">
-      
-                        <!--Grid row-->
-                        <div class="row">
-      
-                          <!--Grid column-->
-                          <div class="col-lg-4 col-md-12 mb-4">
-      
-                            <label for="country">Country</label>
-                            <select class="custom-select d-block w-100" id="country" required>
-                              <option value="">Choose...</option>
-                              <option>United States</option>
-                            </select>
-                            <div class="invalid-feedback">
-                              Please select a valid country.
-                            </div>
-      
-                          </div>
-                          <!--Grid column-->
-      
-                          <!--Grid column-->
-                          <div class="col-lg-4 col-md-6 mb-4">
-      
-                            <label for="state">State</label>
-                            <select class="custom-select d-block w-100" id="state" required>
-                              <option value="">Choose...</option>
-                              <option>California</option>
-                            </select>
-                            <div class="invalid-feedback">
-                              Please provide a valid state.
-                            </div>
-      
-                          </div>
-                          <!--Grid column-->
-      
-                          <!--Grid column-->
-                          <div class="col-lg-4 col-md-6 mb-4">
-      
-                            <label for="zip">Zip</label>
-                            <input type="text" class="form-control" id="zip" placeholder="" required>
-                            <div class="invalid-feedback">
-                              Zip code required.
-                            </div>
-      
-                          </div>
-                          <!--Grid column-->
-      
-                        </div>
-                        <!--Grid row-->
-      
-                        <hr>
-      
-                        <div class="mb-1">
-                          <input type="checkbox" class="form-check-input filled-in" id="chekboxRules">
-                          <label class="form-check-label" for="chekboxRules">I accept the terms and conditions</label>
-                        </div>
-                        <div class="mb-1">
-                          <input type="checkbox" class="form-check-input filled-in" id="safeTheInfo">
-                          <label class="form-check-label" for="safeTheInfo">Save this information for next time</label>
-                        </div>
-                        <div class="mb-1">
-                          <input type="checkbox" class="form-check-input filled-in" id="subscribeNewsletter">
-                          <label class="form-check-label" for="subscribeNewsletter">Subscribe to the newsletter</label>
-                        </div>
-      
-                        <hr>
-      
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Next step</button>
-      
-                      </form>
-      
-                    </div>
-                    <!--/.Panel 1-->
-      
-                    <!--Panel 2-->
-                    <div class="tab-pane fade" id="tabCheckoutAddons123" role="tabpanel">
-      
-                      <!--Grid row-->
-                      <div class="row">
-      
-                        <!--Grid column-->
-                        <div class="col-md-5 mb-4">
-      
-                          <img src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg" class="img-fluid z-depth-1-half"
-                            alt="Second sample image">
-      
-                        </div>
-                        <!--Grid column-->
-      
-                        <!--Grid column-->
-                        <div class="col-md-7 mb-4">
-      
-                          <h5 class="mb-3 h5">Additional premium support</h5>
-      
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ea ut aperiam corrupti,
-                            dolorem.</p>
-      
-                          <!--Name-->
-                          <select class="mdb-select colorful-select dropdown-info">
-                            <option value="" disabled>Choose a period of time</option>
-                            <option value="1" selected>+6 months : 200$</option>
-                            <option value="2">+12 months: 400$</option>
-                            <option value="3">+18 months: 800$</option>
-                            <option value="4">+24 months: 1200$</option>
-                          </select>
-      
-                          <button type="button" class="btn btn-primary btn-md">Add premium support to the cart</button>
-      
-                        </div>
-                        <!--Grid column-->
-      
-                      </div>
-                      <!--Grid row-->
-      
-                      <hr class="mb-5">
-      
-                      <!--Grid row-->
-                      <div class="row">
-      
-                        <!--Grid column-->
-                        <div class="col-md-5 mb-4">
-      
-                          <img src="https://mdbootstrap.com/img/Photos/Others/images/44.jpg" class="img-fluid z-depth-1-half"
-                            alt="Second sample image">
-      
-                        </div>
-                        <!--Grid column-->
-      
-                        <!--Grid column-->
-                        <div class="col-md-7 mb-4">
-      
-                          <h5 class="mb-3 h5">MDB Membership</h5>
-      
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, ea ut aperiam corrupti,
-                            dolorem.</p>
-      
-                          <!--Name-->
-                          <select class="mdb-select colorful-select dropdown-info">
-                            <option value="" disabled>Choose a period of time</option>
-                            <option value="1" selected>+6 months : 200$</option>
-                            <option value="2">+12 months: 400$</option>
-                            <option value="3">+18 months: 800$</option>
-                            <option value="4">+24 months: 1200$</option>
-                          </select>
-      
-                          <button type="button" class="btn btn-primary btn-md">Add MDB Membership to the cart</button>
-      
-                        </div>
-                        <!--Grid column-->
-      
-                      </div>
-                      <!--Grid row-->
-      
-                      <hr class="mb-4">
-      
-                      <button class="btn btn-primary btn-lg btn-block" type="submit">Next step</button>
-      
-                    </div>
-                    <!--/.Panel 2-->
-      
-                    <!--Panel 3-->
-                    <div class="tab-pane fade" id="tabCheckoutPayment123" role="tabpanel">
-      
-                      <div class="d-block my-3">
-                        <div class="mb-2">
-                          <input name="group2" type="radio" class="form-check-input with-gap" id="radioWithGap4" checked
-                            required>
-                          <label class="form-check-label" for="radioWithGap4">Credit card</label>
-                        </div>
-                        <div class="mb-2">
-                          <input iname="group2" type="radio" class="form-check-input with-gap" id="radioWithGap5"
-                            required>
-                          <label class="form-check-label" for="radioWithGap5">Debit card</label>
-                        </div>
-                        <div class="mb-2">
-                          <input name="group2" type="radio" class="form-check-input with-gap" id="radioWithGap6" required>
-                          <label class="form-check-label" for="radioWithGap6">Paypal</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="cc-name123">Name on card</label>
-                          <input type="text" class="form-control" id="cc-name123" placeholder="" required>
-                          <small class="text-muted">Full name as displayed on card</small>
-                          <div class="invalid-feedback">
-                            Name on card is required
-                          </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label for="cc-number123">Credit card number</label>
-                          <input type="text" class="form-control" id="cc-number123" placeholder="" required>
-                          <div class="invalid-feedback">
-                            Credit card number is required
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-3 mb-3">
-                          <label for="cc-expiration123">Expiration</label>
-                          <input type="text" class="form-control" id="cc-expiration123" placeholder="" required>
-                          <div class="invalid-feedback">
-                            Expiration date required
-                          </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                          <label for="cc-cvv123">CVV</label>
-                          <input type="text" class="form-control" id="cc-cvv123" placeholder="" required>
-                          <div class="invalid-feedback">
-                            Security code required
-                          </div>
-                        </div>
-                      </div>
-                      <hr class="mb-4">
-      
-                      <button class="btn btn-primary btn-lg btn-block" type="submit">Place order</button>
-      
-                    </div>
-                    <!--/.Panel 3-->
-      
-                  </div>
-                  <!-- Pills panels -->
-      
-      
+                <label for="country">Country</label>
+                <select class="custom-select d-block w-100" id="country" required>
+                  <option value="">Choose...</option>
+                  <option>United States</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid country.
                 </div>
-                <!--Grid column-->
-      
-                <!--Grid column-->
-                <div class="col-lg-4 mb-4">
-      
-                  <button class="btn btn-primary btn-lg btn-block" type="submit">Place order</button>
-      
-                  <!--Card-->
-                  <div class="card z-depth-0 border border-light rounded-0">
-      
-                    <!--Card content-->
-                    <div class="card-body">
-                      <h4 class="mb-4 mt-1 h5 text-center font-weight-bold">Summary</h4>
-      
-                      <hr>
-      
-                      <dl class="row">
-                        <dd class="col-sm-8">
-                          MDBootstrap UI KIT (jQuery version) - License 6-10 poeple + unlimited projects
-                        </dd>
-                        <dd class="col-sm-4">
-                          $ 2000
-                        </dd>
-                      </dl>
-      
-                      <hr>
-      
-                      <dl class="row">
-                        <dd class="col-sm-8">
-                          Premium support - 2 years
-                        </dd>
-                        <dd class="col-sm-4">
-                          $ 2000
-                        </dd>
-                      </dl>
-      
-                      <hr>
-      
-                      <dl class="row">
-                        <dd class="col-sm-8">
-                          MDB Membership - 2 years
-                        </dd>
-                        <dd class="col-sm-4">
-                          $ 2000
-                        </dd>
-                      </dl>
-      
-                      <hr>
-      
-                      <dl class="row">
-                        <dt class="col-sm-8">
-                          Total
-                        </dt>
-                        <dt class="col-sm-4">
-                          $ 2000
-                        </dt>
-                      </dl>
-                    </div>
-      
-                  </div>
-                  <!--/.Card-->
-      
-      
-      
-                </div>
-                <!--Grid column-->
-      
+
               </div>
-              <!--Grid row-->
-      
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="state">City</label>
+                <input type="text" class="form-control" id="city" placeholder="Cairo" required>
+                <div class="invalid-feedback">
+                  City required.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-6 mb-4">
+
+                <label for="zip">Zip</label>
+                <input type="text" class="form-control" id="zip" placeholder="" required>
+                <div class="invalid-feedback">
+                  Zip code required.
+                </div>
+
+              </div>
+              <!--Grid column-->
+
             </div>
-          </div>
-      
-        </section>
-        <!--Section: Content-->
-      
-      
+            <!--Grid row-->
+
+            <hr>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="same-address">
+              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="save-info">
+              <label class="custom-control-label" for="save-info">Save this information for next time</label>
+            </div>
+
+            <hr>
+
+            <div class="d-block my-3">
+              <div class="custom-control custom-radio">
+                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                <label class="custom-control-label" for="credit">Card</label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                <label class="custom-control-label" for="paypal">Paypal</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cc-name">Name on card</label>
+                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                <small class="text-muted">Full name as displayed on card</small>
+                <div class="invalid-feedback">
+                  Name on card is required
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="cc-number">Credit card number</label>
+                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                <div class="invalid-feedback">
+                  Credit card number is required
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="cc-expiration">Expiration</label>
+                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                <div class="invalid-feedback">
+                  Expiration date required
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cc-expiration">CVV</label>
+                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                <div class="invalid-feedback">
+                  Security code required
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+          </form>
+
+        </div>
+        <!--/.Card-->
+
       </div>
+      <!--Grid column-->
 
-         <!-- Start Footer -->
+      <!--Grid column-->
+      <div class="col-md-4 mb-4">
 
-         <div class="footer mt-5 animated delay-2s fadeInUpBig">
-            <div class="container">
-              
-                <div class="row">
-                    <div class="col-lg-4 mr-5">
-                      <div class="info">
-                        <h2><span>e</span><span>Commerce</span></h2>
-                        <p>This eCommerce Template Which will be coded later by python in django framework</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="popular-searches">
-                        <div class="row">
-                          <div class="col">
-                            <ul class="list-unstyled">
-                              <li>Mobiles</li>
-                              <li>Men Clothing</li>
-                              <li>Laptops</li>
-                              <li>Perfumes</li>
-                              <li>Gaming</li>
-                            </ul>
-                          </div>
-                          <div class="col">
-                            <ul class="list-unstyled">
-                              <li>T-shirts</li>
-                              <li>Toys</li>
-                              <li>Samsung</li>
-                              <li>Perfumes</li>
-                              <li>Gaming</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="customer-care">
-                        customer
-                      </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-          <!-- End Footer --> 
-    
-          <!-- Start Lower Footer -->
-          <div class="lower-footer animated delay-2s fadeInLeftBig">
-            <div class="container">
-              <div class="row">
-                <span>Developer: <strong>Ahmed Hatem</strong> | All content and Images Copyright © 2020 <b>Ahmed Hatem</b></span>
-    
+        <!-- Heading -->
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Your cart</span>
+          <span class="badge badge-secondary badge-pill">{{request.user|cartItemCount}}</span>
+        </h4>
+
+        <!-- Cart -->
+        <ul class="list-group mb-3 z-depth-1">
+          {% for order_item in object.items.all %}
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">{{order_item.item.PRDname}}
+                  <span class="badge badge-danger">{{order_item.quantity}}</span>
+                </h6>
+                <small class="text-muted">{{order_item.item.PRDdesc}}</small>
               </div>
+              <span class="text-muted">${{order_item.getFinalPrice}}</span>
+            </li>
+          {% endfor %}
+          
+
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Promo code</h6>
+              <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">-$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total</span>
+            <strong>${{object.getTotal}}</strong>
+          </li>
+        </ul>
+        <!-- Cart -->
+
+        <!-- Promo code -->
+        <form class="card p-2">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
             </div>
           </div>
-            <!-- End Lower Footer --> 
-    
-            <script src="js/jquery-3.4.1.min.js"></script>
-            <script src="js/popper.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/mdb.min.js"></script>
-            <script src="js/main.js"></script>
-            <script defer src="icons/js/all.js"></script>
-            <script src="js/wow.min.js"></script>
-            <script src="js/lightslider.js"></script>
-            <script src="js/glide.min.js"></script>
-    
-            <script>
-                new WOW().init();
-            </script>
-            <script>
-              const config = {
-                type: 'slider',
-                startAt: 0,
-                perView: 4,
-                autoplay: true | 2000,
-                breakpoints: {
-                  800: {
-                    perView: 2
-                  },
-                }
-    
-              }
-              new Glide('.glide',config).mount();
-              new Glide('.glide2',config).mount();
-            </script>
-        </body>
-    
-    </html>
+        </form>
+        <!-- Promo code -->
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <!--Grid row-->
+
+  </div>
+</main>
+{% endblock body %}

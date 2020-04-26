@@ -200,3 +200,8 @@ def decreaseFromCart(request,slug):
         messages.info(request,"Yoou do not have an active order.")
         return redirect("products:product_details" ,slug=slug)
     
+class checkout(View):
+  def get(self,*args,**kwargs):  
+    order = Order.objects.get(user=self.request.user,ordered=False)
+    context = {'object':order}
+    return render(self.request,"Product/checkout.html",context)

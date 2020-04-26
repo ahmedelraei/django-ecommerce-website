@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.conf import settings
 from project.settings import BASE_DIR
 from django_countries.fields import CountryField
+import os
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
@@ -53,7 +54,8 @@ class Product(models.Model):
         if self.PRDimage:
             return self.PRDimage.url
         else:
-            return os.path.join("static/site_static/img/default.png")
+            img = os.path.join("/static/site_static/img/default.png")
+            return img
 
     def __str__(self):
         return self.PRDname
