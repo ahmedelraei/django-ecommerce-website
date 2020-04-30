@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render,redirect, get_object_or_404
 from django.views.generic import ListView , DetailView ,View
 from .models import *
+from .forms import *
 from django.core.paginator import Paginator
 from django.http import Http404 , HttpResponseRedirect
 from django.urls import reverse
@@ -27,14 +28,6 @@ class cart(LoginRequiredMixin,View):
       except ObjectDoesNotExist:
         messages.error(self.request,"You do not have an active order")
         return redirect('/')
-
-def allproducts(request):
-    products = Product.objects.all()
-    #paginator = Paginator(products,10)
-    #page = request.GET.get('page')
-    #products = paginator.get_page(page)
-    context = {'products':products}
-    return render(request,'Product/products.html',context)
 
 class product_list(ListView):
     model = Product
@@ -202,6 +195,20 @@ def decreaseFromCart(request,slug):
     
 class checkout(View):
   def get(self,*args,**kwargs):  
+    form = CheckoutForm()
     order = Order.objects.get(user=self.request.user,ordered=False)
-    context = {'object':order}
+    context = {'object':order,'form':form}
     return render(self.request,"Product/checkout.html",context)
+
+  def post(self,*args,**kwargs):
+    form = CheckoutForm(self.request.POST or None)
+    if form.is_valid():
+        return redirect('products:checkout')
+    messages.warning(self.request,"Failed to Checkout")
+    return redirect('products:checkout')
+
+class PaymentView(View):
+    def get(self,*args,**kwargs):
+        return render(self.request,'Product/payment.html')
+    def post(self,*args,**kwargs):
+        pass

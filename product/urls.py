@@ -1,5 +1,5 @@
 from .views import *
-from django.urls import path
+from django.urls import path , include
 app_name = 'product'
 
 urlpatterns = [
@@ -14,4 +14,6 @@ urlpatterns = [
     path('remove-from-cart/<slug:slug>',removeFromCart,name="remove-from-cart"),
     path('decrease-cart/<slug:slug>',decreaseFromCart,name="decrease-cart"),
     path('checkout/',checkout.as_view(),name="checkout"),
+    path('payment/<payment_option>',PaymentView.as_view(),name="payment"),
+    path('api/',include('product.api.urls')),
 ]

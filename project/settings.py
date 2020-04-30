@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'charts',
     'accounts',
     'crispy_forms',
+    'rest_framework',
 
 ]
 
