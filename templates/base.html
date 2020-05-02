@@ -201,7 +201,11 @@
         <script src="{% static 'site_static/js/wow.min.js'%}"></script>
         <script src="{% static 'site_static/js/lightslider.js'%}"></script>
         <script src="{% static 'site_static/js/glide.min.js'%}"></script>
-
+        
+        {% block js %}
+          
+        {% endblock js %}
+          
         <script>
             new WOW().init();
         </script>
