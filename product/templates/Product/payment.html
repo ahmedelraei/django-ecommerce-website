@@ -9,7 +9,8 @@
 {% block body %}
 
 <div class="container m-5">
-  <form id="payment-form" method="post" action=".">
+  <form id="payment-form" method="post" action="./s">
+  {% csrf_token %}
     <section>
       <label for="amount">
         <span class="input-label">Amount</span>
