@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     'rest_framework',
+    'designer',
 
 ]
 
@@ -144,3 +145,16 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 ACCOUNT_FORMS = { 
 'signup': 'accounts.forms.CustomSignupForm', 
 } 
+
+## Braintree Settings
+
+if DEBUG:
+    BT_ENVIRONMENT = 'sandbox'
+    BT_MERCHANT_ID = 'sds9ktn32h9vsc8g'
+    BT_PUBLIC_KEY  = '7wpczxwhcv8d3xch'
+    BT_PRIVATE_KEY = '46b090eaa9ae0e835d01664c6eb20962'
+else:
+    BT_ENVIRONMENT = 'sandbox'
+    BT_MERCHANT_ID = ''
+    BT_PUBLIC_KEY  = ''
+    BT_PRIVATE_KEY = ''

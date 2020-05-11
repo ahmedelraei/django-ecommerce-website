@@ -52,5 +52,5 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(Order,OrderAdmin)
-
 admin.site.register(MainSlider)
+admin.site.register(Payment)

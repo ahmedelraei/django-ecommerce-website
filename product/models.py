@@ -166,7 +166,9 @@ class Order(models.Model):
     listed_date = models.DateTimeField(auto_now_add=True , verbose_name=_("Listed Date"))
     ordered_date = models.DateTimeField(verbose_name=_("Ordered Date"))
     ordered = models.BooleanField(default=False,verbose_name=_("Order State"))
-
+    payment = models.ForeignKey('Payment',on_delete=models.SET_NULL ,blank=True,null=True)
+    
+    
     def __str__(self):
         return self.user.username
     def getTotal(self):
@@ -174,6 +176,17 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.getFinalPrice()
         return total
+    
+class Payment(models.Model):
+    charge_id = models.CharField(max_length=50)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL
+    ,on_delete=models.CASCADE, blank=True,null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.user.username
+    
 
 ## IMAGES
 ## Alternatives

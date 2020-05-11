@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 from django.http import Http404 , HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
+from .extras import *
 
 
 def home(request):
@@ -194,6 +195,7 @@ def decreaseFromCart(request,slug):
         messages.info(request,"Yoou do not have an active order.")
         return redirect("products:product_details" ,slug=slug)
     
+  
 class checkout(View):
   def get(self,*args,**kwargs):  
     form = CheckoutForm()
@@ -208,8 +210,33 @@ class checkout(View):
     messages.warning(self.request,"Failed to Checkout")
     return redirect('products:checkout')
 
+
 class PaymentView(View):
     def get(self,*args,**kwargs):
+        client_token = generate_client_token()
+        order = Order.objects.get(user=self.request.user,ordered=False)
+        context = {'order':order,'client_token':client_token}
         return render(self.request,'Product/payment.html')
     def post(self,*args,**kwargs):
-        pass
+        order = Order.objects.get(user=self.request.user,ordered=False)
+        result = transact({
+        'amount': order.getTotal(),
+        'payment_method_nonce': self.request.POST['payment_method_nonce'],
+        'options': {
+            "submit_for_settlement": True
+        }
+    })
+        
+        if result.is_success or result.transaction:
+            messages.info(self.request,'Your Checkout is successful')
+            
+            return redirect('products:home')
+        else:
+            for x in result.errors.deep_errors:
+                messages.warning(self.request,x)
+            
+            return redirect('products:checkout')
+
+        order.ordered = True
+        payment = Payment()
+    
