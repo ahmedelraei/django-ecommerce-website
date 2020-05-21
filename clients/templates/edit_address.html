@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <form method="POST">
+            {% csrf_token %}                
+
+                <div id="div_id_street_address" class="form-group">
+                    <label for="id_street_address" class="">
+                        Street address
+                    </label> 
+                    <div class=""> 
+                        <input value="{{address.street_address}}" type="text" name="street_address" maxlength="30" class="textinput textInput form-control" id="id_street_address"> 
+                    </div> 
+                </div> 
+                <div id="div_id_address2" class="form-group"> 
+                    <label for="id_address2" class="">
+                        Address2
+                    </label> 
+                    <div class=""> 
+                        <input value="{{address.address2}}" type="text" name="address2" maxlength="30" class="textinput textInput form-control" id="id_address2"> 
+                    </div> 
+                </div> 
+                <div id="div_id_zipCode" class="form-group"> 
+                    <label for="id_zipCode" class="">
+                        Zipcode
+                    </label> 
+                    <div class=""> 
+                        <input value="{{address.zipCode}}" type="text" name="zipCode" maxlength="30" class="textinput textInput form-control" id="id_zipCode"> 
+                    </div> 
+                </div> 
+    {% comment %}             <div id="div_id_country" class="form-group"> 
+                    <label for="id_country" class="">
+                        Country
+                    </label> 
+                    <div class=""> 
+                        {{form.country}}
+                        <img class="country-select-flag" id="flag_id_country" style="margin: 6px 4px 0" src="/static/flags/__.gif"> 
+                    </div> 
+                </div>  {% endcomment %}
+                <div id="div_id_city" class="form-group"> 
+                    <label for="id_city" class="">
+                        City
+                    </label> 
+                    <div class=""> 
+                        <input value="{{address.city}}" type="text" name="city" maxlength="30" class="textinput textInput form-control" id="id_city">
+                    </div> 
+                </div> 
+
+                {% if profile.get_default_address == address.pk %}
+                <div class="form-group"> 
+                    <div id="div_id_default" class="form-check"> 
+                        <input value="default" type="checkbox" name="default" class="checkboxinput form-check-input" id="id_default"
+                        {% if address.default %}checked{% endif %}
+                        > 
+                        <label for="id_default" class="form-check-label">
+                                Default
+                        </label> 
+                    </div> 
+                </div>
+                {% endif %}
+
+                <button class="btn btn-danger" type="submit">Save</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -5,16 +5,20 @@ from django.urls import reverse
 from django.conf import settings
 from project.settings import BASE_DIR
 from django_countries.fields import CountryField
+from tinymce import models as tinymce_models
+from django.conf.urls.static import static
 import os
+import uuid
+
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
-    PRDcategory = models.ForeignKey('Category', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
+    PRDcategory = models.ForeignKey('Category',related_name='PRDcat', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
     PRDbrand    = models.ForeignKey('settings.Brand',on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Brand"))
-    PRDdesc  = models.TextField(verbose_name=_("Description"))
+    PRDdesc  = tinymce_models.HTMLField(verbose_name=_("Description"))
     PRDdetails = models.TextField(verbose_name=_("Details"),blank=True, null=True)
     PRDshipping_notes = models.TextField(verbose_name=_("Shipping Details"),blank=True, null=True)
-    PRDshipping_regions = CountryField(verbose_name=_("Shipping Regions"))
+    PRDshipping_regions = CountryField(multiple=True,verbose_name=_("Shipping Regions"))
     PRDimage = models.ImageField(upload_to='productimg/',verbose_name=_("Image:"),blank=True, null=True)
     PRDprice = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Price:"))
     PRDdiscount = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("After Discount:") ,default=0)    
@@ -24,6 +28,8 @@ class Product(models.Model):
     PRDslug    = models.SlugField(unique=True,blank=True, null=True, verbose_name=_("URL:"))
     PRDisNew = models.BooleanField(default=True, verbose_name=_("NEW:"))
     PRDisTrend = models.BooleanField(default=False,verbose_name=_("Trending:"))
+
+
     def save(self, *args, **kwargs):
         if not self.PRDslug:
             self.PRDslug = slugify(self.PRDname)
@@ -56,6 +62,12 @@ class Product(models.Model):
         else:
             img = os.path.join("/static/site_static/img/default.png")
             return img
+
+    def get_shipping_regions(self):
+        country_list = []
+        for country in self.PRDshipping_regions:
+            country_list.append(str(country.name))
+        return country_list
 
     def __str__(self):
         return self.PRDname
@@ -135,7 +147,7 @@ class Product_Accessories(models.Model):
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL ,
     on_delete=models.CASCADE, verbose_name=_("User"))
-    ordered = models.BooleanField(default=False,verbose_name=_("Order State"))   
+    ordered = models.BooleanField(default=False,verbose_name=_("Order item State"))   
     item = models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     
@@ -163,12 +175,17 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL ,
     on_delete=models.CASCADE , verbose_name=_("User"))
     items = models.ManyToManyField(OrderItem ,verbose_name=_("Products"))
-    listed_date = models.DateTimeField(auto_now_add=True , verbose_name=_("Listed Date"))
-    ordered_date = models.DateTimeField(verbose_name=_("Ordered Date"))
-    ordered = models.BooleanField(default=False,verbose_name=_("Order State"))
-    payment = models.ForeignKey('Payment',on_delete=models.SET_NULL ,blank=True,null=True)
-    
-    
+    listed_date = models.DateTimeField(auto_now_add=True , verbose_name=_("Listed Date"),editable=False)
+    ordered_date = models.DateTimeField(blank=True,null=True,verbose_name=_("Ordered Date"),editable=False)
+    ordered = models.BooleanField(default=False,verbose_name=_("Order State"),editable=False)
+    order_ref = models.CharField(max_length=20,unique=True,editable=False)
+    paid = models.BooleanField(default=False,editable=False,verbose_name=_("Paid"))
+    orderTotal = models.FloatField(default=0,editable=False,verbose_name=_("Total"))
+    shippingAddress = models.ForeignKey('clients.Address',related_name="shippingAddress",on_delete=models.SET_NULL,blank=True,null=True)
+    processing = models.BooleanField(default=True)
+    shipped = models.BooleanField(default=False)
+    delivered = models.BooleanField(default=False)
+
     def __str__(self):
         return self.user.username
     def getTotal(self):
@@ -177,17 +194,10 @@ class Order(models.Model):
             total += order_item.getFinalPrice()
         return total
     
-class Payment(models.Model):
-    charge_id = models.CharField(max_length=50)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL
-    ,on_delete=models.CASCADE, blank=True,null=True)
-    amount = models.FloatField()
-    timestamp = models.DateTimeField(auto_now=True)
-    
-    def __str__(self):
-        return self.user.username
-    
-
-## IMAGES
-## Alternatives
-## Accessories
+    def getState(self):
+        if self.delivered:
+            return "Delivered"
+        elif self.shipped:
+            return "Shipped"
+        else:
+            return "Processing"

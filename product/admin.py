@@ -2,6 +2,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import *
+from clients.models import Address
 
 class inlineAccessories(admin.StackedInline):
     model = Product_Accessories
@@ -39,18 +40,30 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display_links = ('user',)
     list_editable = ('item','quantity')
     list_filter = ('quantity','item','user')
-    search_fields = ('user','item','quantity',)
+    search_fields = ('user__username','item','quantity',)
 
 
-
+class inlineAddresses(admin.StackedInline):
+    model = Address
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user','ordered_date','ordered')
+    list_display = (
+        'user',
+        'ordered_date',
+        'order_ref',
+        'orderTotal',
+        'listed_date',
+        'paid',
+        'ordered',
+        'processing',
+        'shipped',
+        'delivered',
+        )
     list_display_links = ('user',)
-    list_editable = ('ordered',)
-    list_filter = ('user','items','ordered_date','ordered','listed_date')
-    search_fields = ('user',)
+    list_filter = ('ordered_date','ordered','listed_date','paid','orderTotal')
+    search_fields = ('user__username','order_ref')
+
 
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(MainSlider)
-admin.site.register(Payment)
+

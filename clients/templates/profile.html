@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body %}
+<main class="mt-5">
+<div class="container emp-profile">
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-img">
+                
+                {% if profile.picture %}
+                    <img src="{{profile.picture.url}}" alt=""/>
+                {% else %}
+                    <img src="{% static 'site_static/img/default.png' %}" alt=""/>
+                {% endif %}    
+                
+                <div class="file btn btn-lg btn-primary">
+                    Change Photo
+                    <input id="pic" name="pic" accept="image/*" type="file"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="profile-head">
+                <h5>
+                    {{profile.firstname}} {{profile.lastname}}
+                </h5>
+                <h6>
+                    {{profile.user.username}}
+                </h6>
+                <p class="proile-rating">ORDERS : <span>{{profile.getTotalOrders}}</span></p>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Addresses</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="profile" aria-selected="false">Orders</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="row justify-content-end">
+       
+        <div class="col-md-8">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Username</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="username" value="{{user.username}}" type="text" 
+                            class="form-control mr-sm-2 mb-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>First Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="firstname" value="{{profile.firstname}}" type="text" 
+                            class="form-control mr-sm-2 mb-2">                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Last Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="lastname" value="{{profile.lastname}}" type="text" 
+                            class="form-control mr-sm-2 mb-2">                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Email</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="email" value="{{profile.email}}" type="text" 
+                            class="form-control mr-sm-2 mb-2">  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Phone</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input name="phone" value="{{profile.phone}}" type="text" 
+                            class="form-control mr-sm-2 mb-2">  
+                        </div>
+                        <div class="col-sm mt-3">
+                            <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade mt-3" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row">
+                    
+                    {% for address in profile.getAddresses %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{address.zipCode}} - {{address.city}}</h5>
+                                    <p class="card-text">{{address.street_address|truncatechars:30}}</p>
+                                    <a href="{{address.get_absolute_url}}" class="btn btn-primary">Edit</a>
+                                </div>
+                            </div>                                    
+                        </div>
+                    {% endfor %}
+                    
+                    </div>
+                </div>
+                <div class="tab-pane fade show active mt-3" id="orders" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row">
+                        <p>## For detailed info paste <b>ORDER REFERENCE</b> in tracking orders section</p>
+                        <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr class="text-uppercase">
+                            <th class="font-weight-bold" scope="col">Ordered Date</th>
+                            <th class="font-weight-bold" scope="col">Total</th>
+                            <th class="font-weight-bold" scope="col">Order Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{order.ordered_date}}</td>
+                                <td>{{order.getTotal}}</td>
+                                <td>{{order.order_ref}}</td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>           
+</div>
+
+<script>
+const img = document.getElementById('pic');
+console.log(img)
+
+</script>
+
+</main>
+{% endblock body %}

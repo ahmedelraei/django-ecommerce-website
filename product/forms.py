@@ -3,31 +3,38 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
 PAY_CHOICES = (
-    ('S','Card'),
-    ('P','Paypal'),
+    #('S','Card'),
+    #('P','Paypal'),
     ('C','Cash'),
-    ('F','Fawry'),
+    #('F','Fawry'),
 
 )
 
 class CheckoutForm(forms.Form):
-    address = forms.CharField(widget=forms.TextInput(attrs={
+    shipping_address = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder':'1234 Main ST',
         'class':'form-control'
-    }))
-    suite   = forms.CharField(required=False,widget=forms.TextInput(attrs={
+    }),required=False)
+    shipping_address2 = forms.CharField(required=False,widget=forms.TextInput(attrs={
         'class':'form-control',
         'placeholder':'Apartment or suite'
     }))
-    zipCode = forms.CharField(widget=forms.TextInput(attrs={
+    shipping_zip = forms.CharField(widget=forms.TextInput(attrs={
         'class':'form-control'
-    }))
-    country = CountryField(blank_label='Select Country').formfield(
+    }),required=False)
+
+    shipping_country = CountryField(blank_label='Select Country').formfield(
+        required=False,
         widget=CountrySelectWidget(attrs={
         'class':'custom-select d-block w-100'
     }))
-    city = forms.CharField(widget=forms.TextInput(attrs={
+    shipping_city = forms.CharField(widget=forms.TextInput(attrs={
         'class':'form-control'
-    }))
-    saveInfo = forms.BooleanField(widget=forms.CheckboxInput(),required=False)
+    }),required=False)
+
+    
+    set_default_shipping = forms.BooleanField(required=False)
+    use_default_shipping = forms.BooleanField(required=False)
+
+
     payment_option = forms.ChoiceField(widget=forms.RadioSelect,choices=PAY_CHOICES) 

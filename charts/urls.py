@@ -4,5 +4,5 @@ from django.urls import path
 app_name = 'charts'
 
 urlpatterns = [
-    path('',views.charts, name="charts"),
+    path('api/',views.chartAPI.as_view(), name="charts"),
 ] 

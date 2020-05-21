@@ -1,0 +1,64 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-sm-12 charts">
+            <canvas id="categoryChart"></canvas>
+        </div>
+    </div>
+
+<script src="{% static 'site_static/js/Chart.min.js'%}"></script>
+<script src="{% static 'site_static/js/jquery-3.4.1.min.js'%}"></script>
+<script>
+    const endpoint = '/charts/api/';
+    var fetchedData = [];
+    var labels = [];
+    var mainLabel = '';
+    var chartType = 'bar';
+    $.ajax({
+        method: 'GET',
+        url: endpoint,
+        success: function(data){
+            labels = data.labels;
+            fetchedData = data.data;
+            mainLabel = data.mainLabel;
+            chartType = data.chartType;
+            console.log(data,labels);
+            handleChart(labels,fetchedData,mainLabel);
+        },
+        error: function(error){
+            console.log('error');
+            console.log(error);
+        }
+    });
+    
+    function handleChart(labels,fetchedData,mainLabel){
+        var config = {
+            type: chartType,
+            data: {
+                datasets: [{
+                    data: fetchedData,
+                    backgroundColor: [
+                        'red','blue','green','purple','cyan'
+                    ],
+                    label: mainLabel
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true
+            }
+        };
+        var ctx = document.getElementById('categoryChart').getContext('2d');
+        chart = new Chart(ctx, config);
+    }
+
+</script>
+{% endblock %}

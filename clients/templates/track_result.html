@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+    <main>  
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-sm-8">
+                    {% include 'track_snippet.html' %}
+                </div>
+            </div>
+            <hr>
+            <div class="row justify-content-center">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr class="text-uppercase">
+                            <th class="font-weight-bold" scope="col">Ordered Date</th>
+                            <th class="font-weight-bold" scope="col">Items</th>
+                            <th class="font-weight-bold" scope="col">Total</th>
+                            <th class="font-weight-bold" scope="col">Shipping Address</th>
+                            <th class="font-weight-bold" scope="col">State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td class="font-weight-bold">{{order.ordered_date}}</td>
+                            <td class="font-weight-bold">
+                                <ul>
+                                {% for item in order.items.all %}
+                                    <li>{{item}}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                            <td class="font-weight-bold">{{order.getTotal}}</td>
+                            <td class="font-weight-bold">
+                                {{order.shippingAddress.address2}} 
+                            <br>{{order.shippingAddress.street_address|truncatechars:20}}
+                            <br>{{order.shippingAddress.zipCode}}
+                            <br>{{order.shippingAddress.city}}
+                            </td>
+                            <td class="text-uppercase font-weight-bold 
+                            {% if order.getState == 'Delivered' %}
+                                text-success
+                            {% endif %}
+                            {% if order.getState == 'Shipped' %}
+                                text-info
+                            {% endif %}
+                            {% if order.getState == 'Processing' %}
+                                text-primary
+                            {% endif %}
+                            ">
+                            {{order.getState}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--space for navbar fixing-->
+        <br> 
+        <br> 
+        <br> 
+        <br> 
+        <br> 
+    </main>
+{% endblock body %}
+    

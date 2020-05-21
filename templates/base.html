@@ -25,23 +25,23 @@
 
         <!-- Start Upper-NavBar-->
 
-        <nav class="nav upper-nav animated fadeInRightBig">
+        <nav class="nav upper-nav animated fadeInRight">
           <a class="nav-link active" href="#">Privacy Policy</a>
-          <a class="nav-link" href="#">Tracking Order</a>
+          <a class="nav-link" href="{% url 'clients:track-order' %}">Tracking Order</a>
           <a class="nav-link" href="#">Support</a>
         </nav>
 
         <!-- End Upper-NavBar-->
 
         <!-- Start NavBar-->
-        <nav id="main-navbar" class="navbar main-nav navbar-expand-lg navbar-light animated delay-1s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
+        <nav id="main-navbar" class="navbar main-nav navbar-expand-lg navbar-light animated fadeInDown">
             <a class="navbar-brand" href="/"><span>e</span><span>Commerce</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
-              <form class="form-inline my-2 my-lg-0 ml-auto main-search">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <form role="search" class="form-inline my-2 my-lg-0 ml-auto main-search" method="GET" action="/s/">
+                <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
               </form>
                 <ul class="navbar-nav mr-5">
@@ -58,12 +58,12 @@
                       <i class="fas fa-user-circle"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">
-                        <i class="fas fa-user-circle"></i></i>Profile
+                      <a class="dropdown-item" href="{% url 'clients:profile' %}">
+                        <i class="fas fa-user-circle mr-2"></i><b>Profile</b>
                       </a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="{% url 'account_logout' %}">
-                        <i class="fas fa-user-plus mr-2"></i>logout
+                        <i class="fas fa-user-plus mr-2"></i><b>Logout</b>
                       </a>
                     </div>
                     </li>                 
@@ -91,28 +91,8 @@
         <!-- End NavBar-->
 
         <!-- Start Category Menu -->
-        <nav class="navbar cat-nav navbar-expand-lg navbar-light animated delay-2s fadeInDownBig" style="animation-name: fadeInDown;" data-wow-duration="2s">
-          <div class="collapse navbar-collapse" id="mainNav">
-            <div class="row">
-              <ul class="navbar-nav mr-5">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Mobiles</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Laptops</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">PCs</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Gaming</a>
-                </li>
-              </ul>
-            </div>
-          
-          </div>
-      </nav>
-      <!-- End Category Menu -->
+          {% include 'category_nav_snippet.html' %}
+        <!-- End Category Menu -->
 
       {% if messages %}
  
@@ -203,6 +183,7 @@
         <script src="{% static 'site_static/js/glide.min.js'%}"></script>
         
   	    {% block js %}
+
         {% endblock js %}
 
         <script>

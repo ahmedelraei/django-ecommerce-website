@@ -1,0 +1,43 @@
+<nav class="navbar cat-nav navbar-expand-lg navbar-light animated delay-1s fadeInDown">
+    <div class="collapse navbar-collapse" id="mainNav">
+    <div class="row myrow">
+        <ul id="category-nav" class="navbar-nav mr-5"></ul>
+    </div>
+    </div>
+</nav>
+<script src="/static/site_static/js/jquery-3.4.1.min.js"></script>
+
+<script>
+
+const endpoint = '/api/categories-list';
+
+$.ajax({
+    method: 'GET',
+    url: endpoint,
+    success: function(data){
+        handleData(data);
+    },
+    error: function(error){
+        console.log(error)
+    }
+});
+const catnav = document.getElementById('category-nav');
+function handleData(data){
+    for(n=0;n<10;n++){
+        let href = /categories/
+        let category = data[n];
+        let catParent = category.CATparent;
+        if(catParent !== null){
+            href = '/categories/sub/' 
+        };
+        catnav.innerHTML += `
+        <li class="nav-item">
+            <a class="nav-link" href="${href}${category.CATslug}">${category.CATname}</a>
+        </li>`;
+
+    }
+};
+
+</script>
+
+

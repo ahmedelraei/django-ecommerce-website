@@ -14,7 +14,7 @@ SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','48b73e4b.ngrok.io']
 
 
 # Application definition
@@ -32,13 +32,18 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'import_export',
     'django_countries',
+    #'tinymce',
     'product',
     'settings',
     'charts',
-    'accounts',
     'crispy_forms',
     'rest_framework',
     'designer',
+    'payment',
+    'paypal.standard.ipn',
+    'clients',
+    'administration',
+    
 
 ]
 
@@ -75,13 +80,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'storedb',
+            'USER': '',
+            'PASSWORD': '',
+            'HOST':'',
+            'PORT':'',
+        }
+    }    
 
 
 # Password validation
@@ -120,15 +136,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+VENV_PATH = os.path.dirname(BASE_DIR)
 
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(VENV_PATH, 'static')
+
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
+TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
+ '''
 #Auth
 AUTHENTICATION_BACKENDS = (
 
@@ -143,18 +165,28 @@ LOGOUT_REDIRECT_URL = '/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_FORMS = { 
-'signup': 'accounts.forms.CustomSignupForm', 
+'signup': 'clients.forms.CustomSignupForm', 
 } 
 
 ## Braintree Settings
 
 if DEBUG:
+    PAYPAL_TEST = True
+    PAYPAL_RECEIVER_EMAIL = "ahmedelrai18@gmail.com"
     BT_ENVIRONMENT = 'sandbox'
     BT_MERCHANT_ID = 'sds9ktn32h9vsc8g'
     BT_PUBLIC_KEY  = '7wpczxwhcv8d3xch'
     BT_PRIVATE_KEY = '46b090eaa9ae0e835d01664c6eb20962'
 else:
+    PAYPAL_RECEIVER_EMAIL = "ahmedelrai18@gmail.com"
     BT_ENVIRONMENT = 'sandbox'
     BT_MERCHANT_ID = ''
     BT_PUBLIC_KEY  = ''
     BT_PRIVATE_KEY = ''
+
+### DRF SETTINGS
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
