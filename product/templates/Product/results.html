@@ -40,21 +40,24 @@
   
               <div class="divider-small mb-3"></div>
   
-              <ul class="list-unstyled link-black">
+              <ul class="list-unstyled link-black filter-list">
               <li class="mb-2">
-                  <a href="" class="active">Default</a>
+                  <a id="default-filter" href="" class="active">Default</a>
               </li>
               <li class="mb-2">
-                  <a href="" class="">Popularity</a>
+                  <a id="trending-filter" onclick="filter('trending')" href="#popular" class="">Popularity</a>
               </li>
               <li class="mb-2">
-                  <a href="" class="">Rating</a>
+                  <a id="new-filter" onclick="filter('new')" href="#" class="">New</a>
               </li>
               <li class="mb-2">
-                  <a href="" class="">Price: low to high</a>
+                  <a id="rating-filter" href="#" class="">Rating</a>
               </li>
               <li class="mb-2">
-                  <a href="" class="">Price: high to low</a>
+                  <a id="low-high-filter" onclick="filter('low-high')" href="#low-high" class="">Price: low to high</a>
+              </li>
+              <li class="mb-2">
+                  <a id="high-low-filter" onclick="filter('high-low')" href="#high-low" class="">Price: high to low</a>
               </li>
               </ul>
           </div>
@@ -169,32 +172,10 @@
   <div class="col-9">
       <div class="products">
         <div class="container">
-          <div class="row animated fadeIn">
-            {% for product in results %}
-              <div class="col-sm-12 col-lg-4 mt-3 column">
-                  <div class="card">
-                    {% if product.PRDimage %}
-                    <a href="{{product.get_absolute_url}}">
-                        <img class="card-img-top" src="{{product.PRDimage.url}}" alt="{{product.PRDname}}">
-                    </a>
-                    {% else %}
-                    <a href="{{product.get_absolute_url}}">
-                        <img class="card-img-top" src="{% static 'site_static/img/default.png' %}" alt="{{product.PRDname}}">
-                    </a>
-                    {% endif %}
-                    <div class="card-body">
-                        <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
-                        <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></center></a>
-                        <center><h4 class="item-price"><strong>{{product.PRDprice}}</strong></h4></center>
-    
-                    </div>
-                  </div>
-              </div>
-            {% empty %}
+          <div id="items-row" class="row">
 
-            <h1 id="notFound">Not Found</h1>
 
-            {% endfor %}
+
 
 
           </div>

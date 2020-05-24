@@ -16,7 +16,7 @@ class Product(models.Model):
     PRDcategory = models.ForeignKey('Category',related_name='PRDcat', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
     PRDbrand    = models.ForeignKey('settings.Brand',on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Brand"))
     PRDdesc  = tinymce_models.HTMLField(verbose_name=_("Description"))
-    PRDdetails = models.TextField(verbose_name=_("Details"),blank=True, null=True)
+    PRDdetails = tinymce_models.HTMLField(verbose_name=_("Details"),blank=True, null=True)
     PRDshipping_notes = models.TextField(verbose_name=_("Shipping Details"),blank=True, null=True)
     PRDshipping_regions = CountryField(multiple=True,verbose_name=_("Shipping Regions"))
     PRDimage = models.ImageField(upload_to='productimg/',verbose_name=_("Image:"),blank=True, null=True)
@@ -112,7 +112,10 @@ class Category(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("products:category", kwargs={"slug": self.CATslug})
+        if self.CATparent:
+            return reverse("products:sub-category", kwargs={"slug": self.CATslug})
+        else:
+            return reverse("products:category", kwargs={"slug": self.CATslug})
 
 
     def __str__(self):
@@ -177,12 +180,13 @@ class Order(models.Model):
     items = models.ManyToManyField(OrderItem ,verbose_name=_("Products"))
     listed_date = models.DateTimeField(auto_now_add=True , verbose_name=_("Listed Date"),editable=False)
     ordered_date = models.DateTimeField(blank=True,null=True,verbose_name=_("Ordered Date"),editable=False)
-    ordered = models.BooleanField(default=False,verbose_name=_("Order State"),editable=False)
+    ordered = models.BooleanField(default=False,verbose_name=_("Ordered"),editable=False)
     order_ref = models.CharField(max_length=20,unique=True,editable=False)
     paid = models.BooleanField(default=False,editable=False,verbose_name=_("Paid"))
     orderTotal = models.FloatField(default=0,editable=False,verbose_name=_("Total"))
     shippingAddress = models.ForeignKey('clients.Address',related_name="shippingAddress",on_delete=models.SET_NULL,blank=True,null=True)
     processing = models.BooleanField(default=True)
+    cancelled = models.BooleanField(default=False)
     shipped = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
 
@@ -201,3 +205,6 @@ class Order(models.Model):
             return "Shipped"
         else:
             return "Processing"
+    
+    def get_cancel_url(self):
+        return reverse('clients:cancel-order',kwargs={'code':self.order_ref})

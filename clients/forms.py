@@ -37,3 +37,7 @@ class EditAddressForm(forms.Form):
     })) """
     city = forms.CharField(max_length=30,required=False)
     default = forms.BooleanField(required=False)
+
+class CancelOrderForm(forms.Form):
+    why = forms.CharField(widget=forms.Textarea,label='Why are you Cancelling This Order?')
+    note = forms.CharField(required=False,widget=forms.Textarea,label='Notes to improve our Service')

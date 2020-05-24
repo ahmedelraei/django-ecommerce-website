@@ -55,6 +55,7 @@ class OrderAdmin(admin.ModelAdmin):
         'paid',
         'ordered',
         'processing',
+        'cancelled',
         'shipped',
         'delivered',
         )

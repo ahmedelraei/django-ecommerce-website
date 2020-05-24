@@ -134,7 +134,17 @@
                         <tbody>
                             {% for order in orders %}
                             <tr>
-                                <td>{{order.ordered_date}}</td>
+                                <td>{{order.ordered_date | date:"D d M Y h:i e" }}
+                                
+                                {% if order.cancelled %}
+                                    <h6><span class="badge badge-danger float-right"><b>CANCELLED</b></span></h6>
+                                {% elif order.delivered %}
+                                    <h6><span class="badge badge-success float-right"><b>DELIVERED</b></span></h6>
+                                {% elif order.shipped %}
+                                    <h6><span class="badge badge-info float-right"><b>SHIPPED</b></span></h6>
+                                {% endif %}
+                                    
+                                </td>
                                 <td>{{order.getTotal}}</td>
                                 <td>{{order.order_ref}}</td>
                             </tr>

@@ -16,7 +16,7 @@ class Profile(models.Model):
     picture = models.ImageField(default='default.png', upload_to='profile_pics',blank=True,null=True)
     phone = models.CharField(max_length=30,blank=True,null=True)
     Tel   = models.CharField(max_length=30 ,blank=True,null=True)
-    address = models.ManyToManyField('Address',verbose_name=_("Address"),blank=True,null=True)
+    address = models.ManyToManyField('Address',verbose_name=_("Address"),blank=True)
 
     
     def __str__(self):
@@ -42,8 +42,9 @@ class Profile(models.Model):
 
 @receiver(user_signed_up)
 def create_profile(sender, **kwargs):
-    u = Profile.objects.create(user=kwargs['user'])
-    u.save()
+    profile = Profile.objects.create(user=kwargs['user'])
+    profile.save()
+
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL ,

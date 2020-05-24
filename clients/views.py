@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.generic import DetailView, ListView, View
 from product.models import Order
 
-from .forms import EditAddressForm, editProfile, trackOrderForm
+from .forms import EditAddressForm, editProfile, trackOrderForm , CancelOrderForm
 from .models import Address, Profile
 
 
@@ -46,11 +46,11 @@ class profile(View):
 
 class trackOrderView(LoginRequiredMixin,View):
     def get(self,*args, **kwargs):
-        form = trackOrderForm(self.request.GET or None)
-        context = {'form':form}
-        return render(self.request,'track_order.html',context)
+        ''' form = trackOrderForm(self.request.GET or None)
+        context = {'form':form} '''
+        return render(self.request,'track_order.html',{})
 
-@login_required
+''' @login_required
 def trackOrder(request):
     try:
         query = request.GET.get('order_ref').strip()
@@ -63,7 +63,7 @@ def trackOrder(request):
     else:
         messages.info(request,"No such Order")
         return redirect("clients:track-order")
-
+ '''
 
 def is_valid_form(values):
     valid = True
@@ -117,3 +117,33 @@ class EditAddress(View):
             messages.info(self.request,'no such address')
             
 
+class CancelOrder(View):
+
+    def get(self,*args, **kwargs):
+        form = CancelOrderForm(self.request.GET or None)
+        context = {'form':form}
+        return render(self.request,'cancel-order.html',context)
+
+    def post(self,*args, **kwargs):
+        try:
+            form = CancelOrderForm(self.request.POST or None)
+            order_ref = self.kwargs['code']
+
+            order = Order.objects.get(user=self.request.user,order_ref=order_ref,cancelled=False)
+            if order.delivered == False and order.shipped == False:
+                order.cancelled = True
+                order.save()
+                
+                messages.success(self.request,'order has been cancelled')
+                return redirect('clients:profile')
+
+            elif order.shipped == True:
+                messages.success(self.request,'order has been already shipped')
+                return redirect('clients:profile')
+            else:
+                messages.success(self.request,'order has been already delivered')
+                return redirect('clients:profile')
+
+        except ObjectDoesNotExist:
+            messages.info(self.request,'no such order')
+            return redirect('clients:track-order')

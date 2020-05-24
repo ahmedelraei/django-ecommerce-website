@@ -100,7 +100,7 @@
           <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
           data-parent="#accordionEx">
           <div class="card-body">
-              {{product.PRDdesc}}
+              {{product.PRDdesc|safe}}
           </div>
           </div>
       </div>
@@ -124,7 +124,7 @@
           <div id="collapseTwo2" class="collapse" role="tabpanel" aria-labelledby="headingTwo2"
           data-parent="#accordionEx">
           <div class="card-body">
-            {{product.PRDdetails}}
+            {{product.PRDdetails|safe}}
           </div>
       </div>
       <!-- Accordion card -->

@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <div class="container mt-5">
+    <div id="order-info-container" class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-sm-8">
                 {% include 'track_snippet.html' %}
             </div>
         </div>
+        <div id="row-order-table" class="row justify-content-center mt-5"></div>
+    
     </div>
 {% endblock body %}

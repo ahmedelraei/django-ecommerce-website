@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'import_export',
     'django_countries',
     #'tinymce',
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'charts',
     'crispy_forms',
     'rest_framework',
+    'rest_framework.authtoken',
     'designer',
     'payment',
     'paypal.standard.ipn',
@@ -136,13 +138,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-VENV_PATH = os.path.dirname(BASE_DIR)
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "static"),
+
 ]
-STATIC_ROOT = os.path.join(VENV_PATH, 'static')
 
 
 MEDIA_URL  = '/media/'
@@ -168,6 +169,18 @@ ACCOUNT_FORMS = {
 'signup': 'clients.forms.CustomSignupForm', 
 } 
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
 ## Braintree Settings
 
 if DEBUG:
@@ -186,6 +199,9 @@ else:
 
 ### DRF SETTINGS
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ]

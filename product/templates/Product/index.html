@@ -42,12 +42,12 @@
             {% if product.PRDisNew %}
             <li class="glide__slide">
               <div class="card slider-card">
-                <img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product">
+                <a href="{{product.get_absolute_url}}"><img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product"></a>
                 <div class="card-body">
                     <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
-                    <center><h4 class="card-title">{{product.PRDname}}</h4></center>
+                    <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></a></center>
+                    <center><span class="badge badge-success">NEW</span></center>
                     <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
-                    <center><a href="#" class="btn btn-primary">Add to Cart</a></center>
 
                 </div>
             </div>
@@ -131,12 +131,12 @@
             {% if product.PRDisTrend %}
             <li class="glide__slide">
               <div class="card slider-card">
-                <img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product">
+                <a href="{{product.get_absolute_url}}"><img class="card-img-top" src="{{product.GetMainimg}}" alt="name of product"></a>
                 <div class="card-body">
                     <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
-                    <center><h4 class="card-title">{{product.PRDname}}</h4></center>
+                    <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></a></center>
+                    <center><span class="badge badge-danger">Trending</span></center>
                     <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
-                    <center><a href="#" class="btn btn-primary">Add to Cart</a></center>
 
                 </div>
             </div>

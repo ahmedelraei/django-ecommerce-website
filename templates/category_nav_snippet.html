@@ -24,15 +24,10 @@ $.ajax({
 const catnav = document.getElementById('category-nav');
 function handleData(data){
     for(n=0;n<10;n++){
-        let href = /categories/
         let category = data[n];
-        let catParent = category.CATparent;
-        if(catParent !== null){
-            href = '/categories/sub/' 
-        };
         catnav.innerHTML += `
         <li class="nav-item">
-            <a class="nav-link" href="${href}${category.CATslug}">${category.CATname}</a>
+            <a class="nav-link" href="${category.url}">${category.CATname}</a>
         </li>`;
 
     }
