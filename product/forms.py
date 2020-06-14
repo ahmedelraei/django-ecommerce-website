@@ -6,7 +6,8 @@ PAY_CHOICES = (
     #('S','Card'),
     #('P','Paypal'),
     ('C','Cash'),
-    #('F','Fawry'),
+    ('F','Fawry'),
+    ('W','e-Wallet'),
 
 )
 

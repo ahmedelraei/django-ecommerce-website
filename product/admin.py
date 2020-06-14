@@ -52,15 +52,23 @@ class OrderAdmin(admin.ModelAdmin):
         'order_ref',
         'orderTotal',
         'listed_date',
-        'paid',
+        'get_payment_option',
         'ordered',
         'processing',
         'cancelled',
         'shipped',
         'delivered',
         )
+    def get_payment_option(self,obj):
+        try:
+            print(obj.payment.payment_type)
+            return obj.payment.payment_type
+        except: 
+            pass
+
+    get_payment_option.short_description  = 'Payment Type'
     list_display_links = ('user',)
-    list_filter = ('ordered_date','ordered','listed_date','paid','orderTotal')
+    list_filter = ('ordered_date','ordered','listed_date','payment','orderTotal')
     search_fields = ('user__username','order_ref')
 
 

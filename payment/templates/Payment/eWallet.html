@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block body %}
+<div class="container wow fadeIn mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mb-4">
+            <form method="POST" class="card-body">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="row justify-content-center">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+    

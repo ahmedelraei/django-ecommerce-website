@@ -14,7 +14,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, View
-
+from payment.models import Payment
 from clients.models import Address, Profile
 
 from .extras import *
@@ -317,12 +317,26 @@ class checkout(LoginRequiredMixin,View):
                     for item in order_items:
                         item.ordered = True
                         item.save()
-                    order.ordered = True
+                    payment = Payment(
+                                user = self.request.user,
+                                order_id = order.order_ref,
+                                amount = order.getTotal(),
+                                success = True,
+                                timestamp = timezone.now(),
+                                payment_type = payment_option,
+                            )
+                    payment.save()
+                    order.payment = payment 
                     order.orderTotal = order.getTotal()
                     order.ordered_date = timezone.now()
+                    order.ordered = True
+                    order.processing = True
                     order.save()
-                    messages.success(self.request,'Your Order has processed Successfuly')
+                    messages.success(self.request,'Your Order has processed Successfully')
                     return redirect('clients:profile')
+
+                if payment_option == 'W':
+                    return redirect('payment:e-wallet')
                 else:
                     messages.warning(self.request,"Failed to Checkout")
                     return redirect('products:checkout')
