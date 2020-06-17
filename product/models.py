@@ -17,7 +17,7 @@ class Product(models.Model):
     PRDbrand    = models.ForeignKey('settings.Brand',on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Brand"))
     PRDdesc  = tinymce_models.HTMLField(verbose_name=_("Description"))
     PRDdetails = tinymce_models.HTMLField(verbose_name=_("Details"),blank=True, null=True)
-    PRDshipping_notes = models.TextField(verbose_name=_("Shipping Details"),blank=True, null=True)
+    PRDshipping_notes = models.TextField(max_length=5000,verbose_name=_("Shipping Details"),blank=True, null=True)
     PRDshipping_regions = CountryField(multiple=True,verbose_name=_("Shipping Regions"))
     PRDimage = models.ImageField(upload_to='productimg/',verbose_name=_("Image:"),blank=True, null=True)
     PRDprice = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Price:"))
@@ -25,7 +25,7 @@ class Product(models.Model):
     PRDcost  = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Cost:"))
     stock_quantity = models.IntegerField(default=1,verbose_name=_("In Stock:"))
     PRDcreated = models.DateTimeField(verbose_name=_("Created at:"))
-    PRDslug    = models.SlugField(unique=True,blank=True, null=True, verbose_name=_("URL:"))
+    PRDslug    = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"))
     PRDisNew = models.BooleanField(default=True, verbose_name=_("NEW:"))
     PRDisTrend = models.BooleanField(default=False,verbose_name=_("Trending:"))
 
@@ -93,9 +93,9 @@ class MainSlider(models.Model):
 class Category(models.Model):
     CATname = models.CharField(max_length=50,verbose_name=_("Name:"),blank=False, null=False)
     CATparent  = models.ForeignKey('self',limit_choices_to={'CATparent__isnull':True},on_delete=models.CASCADE,verbose_name=_("Main Category:"),blank=True, null=True)
-    CATdesc  = models.TextField()
+    CATdesc  = models.TextField(max_length=5000,)
     CATimg   = models.ImageField(upload_to='category/',blank=True, null=True)
-    CATslug  = models.SlugField(unique=True,blank=True, null=True, verbose_name=_("URL:"))
+    CATslug  = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"))
 
 
     def save(self, *args, **kwargs):

@@ -1,5 +1,6 @@
 {% load static %}
 {% load cart_template_tag %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html>
@@ -26,9 +27,9 @@
         <!-- Start Upper-NavBar-->
 
         <nav class="nav upper-nav animated fadeInRight">
-          <a class="nav-link active" href="#">Privacy Policy</a>
-          <a class="nav-link" href="{% url 'clients:track-order' %}">Tracking Order</a>
-          <a class="nav-link" href="#">Support</a>
+          <a class="nav-link active" href="#">{% trans "Privacy Policy" %}</a>
+          <a class="nav-link" href="{% url 'clients:track-order' %}">{% trans "Tracking Order" %}</a>
+          <a class="nav-link" href="#">{% trans "Support" %}</a>
         </nav>
 
         <!-- End Upper-NavBar-->
@@ -41,8 +42,8 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
               <form role="search" class="form-inline my-2 my-lg-0 ml-auto main-search" method="GET" action="/s/">
-                <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" name="q" type="search" placeholder="{% trans 'Search' %}" aria-label="Search">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">{% trans "Search" %}</button>
               </form>
                 <ul class="navbar-nav mr-5">
                   
@@ -59,11 +60,11 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="{% url 'clients:profile' %}">
-                        <i class="fas fa-user-circle mr-2"></i><b>Profile</b>
+                        <i class="fas fa-user-circle mr-2"></i><b>{% trans "Profile" %}</b>
                       </a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="{% url 'account_logout' %}">
-                        <i class="fas fa-user-plus mr-2"></i><b>Logout</b>
+                        <i class="fas fa-user-plus mr-2"></i><b>{% trans "Logout" %}</b>
                       </a>
                     </div>
                     </li>                 
@@ -140,13 +141,21 @@
                         </ul>
                       </div>
                       <div class="col">
-                        <ul class="list-unstyled">
-                          <li>T-shirts</li>
-                          <li>Toys</li>
-                          <li>Samsung</li>
-                          <li>Perfumes</li>
-                          <li>Gaming</li>
+                        <ul>
+                            <ol><a href="/en">English</a></ol>
+                            <ol><a id="ar-choice" href="/ar">العربية</a></ol>
                         </ul>
+
+                        <script>
+                          console.log((window.location.href).split("/")[3]);
+                          if ((window.location.href).split("/")[3] === 'ar'){
+                            document.head.innerHTML += `
+                              <link rel="stylesheet" href="{% static 'site_static/css/bootstrap-rtl.css'%}">
+                            
+                            `
+                          }
+                        </script>
+
                       </div>
                     </div>
                   </div>

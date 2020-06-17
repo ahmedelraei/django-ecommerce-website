@@ -14,12 +14,7 @@ SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['127.0.0.1','16f75b70d684.ngrok.io']
-=======
-ALLOWED_HOSTS = ['127.0.0.1','64578811.ngrok.io']
->>>>>>> 6787ef9ee61d44236254054e6cfc5fb93aadd096
-
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 # Application definition
 
@@ -57,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -97,11 +93,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'storedb',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST':'',
-            'PORT':'',
+            'NAME': 'mainDB',
+            'USER': 'postgres',
+            'PASSWORD': 'ahmed2003',
+            'HOST':'localhost',
+            'PORT':'5432',
         }
     }    
 
@@ -138,6 +134,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR,'locale')
+]
+
+LANGUAGES = [
+    ('en','English'),
+    ('ar','Arabic'),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

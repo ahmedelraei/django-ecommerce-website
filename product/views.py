@@ -20,7 +20,7 @@ from clients.models import Address, Profile
 from .extras import *
 from .forms import *
 from .models import *
-
+from django.utils import translation
 
 def ref_code_generator():
     ref = ''.join(random.choices(string.ascii_lowercase + string.digits,k=20))
