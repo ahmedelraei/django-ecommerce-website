@@ -152,11 +152,11 @@ STATIC_URL = '/static/'
     os.path.join(BASE_DIR, "static"),
 
 ] '''
-STATIC_ROOT = '~/var/www/static_root'
+STATIC_ROOT = '/var/www/static_root'
 
 
 MEDIA_URL  = '/media/'
-MEDIA_ROOT = '~/var/www/media_root'
+MEDIA_ROOT = '/var/www/media_root'
 
 ''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
 TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
