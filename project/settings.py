@@ -12,7 +12,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['134.209.229.24']
 
@@ -148,15 +148,15 @@ LANGUAGES = [
 
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
+''' STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 
-]
-# STATIC_ROOT = '/var/www/static_root'
+] '''
+STATIC_ROOT = '/var/www/static_root/'
 
 
 MEDIA_URL  = '/media/'
-MEDIA_ROOT = '/var/www/media_root'
+MEDIA_ROOT = '/var/www/media_root/'
 
 ''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
 TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
