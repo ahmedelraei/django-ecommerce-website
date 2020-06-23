@@ -14,7 +14,7 @@ SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['134.209.229.24','www.elra3i.com','elra3i.com']
+ALLOWED_HOSTS = ['134.209.229.24','www.elra3i.com','elra3i.com','127.0.0.1']
 
 # Application definition
 
@@ -153,7 +153,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/home/ahmedhatem/var/www/static/',
 ]
-STATIC_ROOT = '/home/ahmedhatem/var/www/static/'
+
+if not DEBUG:
+    STATIC_ROOT = '/home/ahmedhatem/var/www/static/'
 
 
 MEDIA_URL  = '/media/'
