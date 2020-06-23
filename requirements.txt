@@ -65,7 +65,6 @@ protobuf==3.11.3
 psycopg2-binary==2.8.5
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-pycodestyle @ file:///E:/Programs/pycodestyle/pycodestyle-2.5.0.tar.gz
 Pygments==2.6.1
 PyInstaller==3.6
 pylint==2.4.4
