@@ -43,5 +43,7 @@ class PAY_eWallet(View):
 			order.ordered_date = timezone.now()
 			order.ordered = True
 			order.save()
+			for item in order_items:
+				item.item.stock_quantity -= item.quantity
 			messages.success(self.request,'Your Order has processed Successfully')
 			return redirect('clients:profile')

@@ -56,7 +56,7 @@ window.onload = function (){
                 }
 
                 document.getElementById('items-row').innerHTML += `
-                <div class="col-sm-12 col-lg-4 mt-3 column">
+                <div class="col-sm-12 col-md-4 col-lg-2 mt-3 column">
                 <div class="card animated fadeIn">
                 <a href="${item.url}">
                     <img class="card-img-top" src="${item.img}" alt="${item.PRDname}">
@@ -95,7 +95,7 @@ function filter(filter){
 
     document.getElementById('items-row').innerHTML = '';
 
-    document.querySelector('a[class=active]').classList.remove("active");
+    document.querySelector('.nav-link.active').classList.remove("active");
 
     document.getElementById(filter_id).classList.add("active");
 
@@ -123,7 +123,7 @@ function filter(filter){
                 }
                 
                 document.getElementById('items-row').innerHTML += `
-                <div class="col-sm-12 col-lg-4 mt-3 column">
+                <div class="col-sm-12 col-md-4 col-lg-2 mt-3 colum">
                 <div class="card animated fadeIn">
                 <a href="${item.url}">
                     <img class="card-img-top" src="${item.img}" alt="${item.PRDname}">

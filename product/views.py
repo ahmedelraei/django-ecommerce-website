@@ -332,6 +332,10 @@ class checkout(LoginRequiredMixin,View):
                     order.ordered = True
                     order.processing = True
                     order.save()
+                    for item in order_items:
+                        print(item.item.stock_quantity,item.quantity)
+                        item.item.stock_quantity -= item.quantity
+                        item.item.save()
                     messages.success(self.request,'Your Order has processed Successfully')
                     return redirect('clients:profile')
 
@@ -340,6 +344,7 @@ class checkout(LoginRequiredMixin,View):
                 else:
                     messages.warning(self.request,"Failed to Checkout")
                     return redirect('products:checkout')
+            
 
         except ObjectDoesNotExist:
             return redirect("products:cart")
