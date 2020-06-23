@@ -150,13 +150,13 @@ LANGUAGES = [
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    '/home/ahmedhatem/var/www/static_root/',
+    '/home/ahmedhatem/var/www/static/',
 ]
-STATIC_ROOT = '/home/ahmedhatem/var/www/static_root/'
+STATIC_ROOT = '/home/ahmedhatem/var/www/static/'
 
 
 MEDIA_URL  = '/media/'
-MEDIA_ROOT = '/home/ahmedhatem/var/www/media_root/'
+MEDIA_ROOT = '/home/ahmedhatem/var/www/media/'
 
 ''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
 TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
