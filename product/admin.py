@@ -62,10 +62,9 @@ class OrderAdmin(admin.ModelAdmin):
         )
     def get_payment_option(self,obj):
         try:
-            print(obj.payment.payment_type)
             return obj.payment.payment_type
-        except: 
-            pass
+        except Exception as e: 
+            print(e)
 
     get_payment_option.short_description  = 'Payment Type'
     list_display_links = ('user',)

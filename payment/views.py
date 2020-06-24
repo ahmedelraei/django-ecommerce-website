@@ -42,6 +42,7 @@ class PAY_eWallet(View):
 			order.orderTotal = order.getTotal()
 			order.ordered_date = timezone.now()
 			order.ordered = True
+			order.payment = payment
 			order.save()
 			for item in order_items:
 				item.item.stock_quantity -= item.quantity
