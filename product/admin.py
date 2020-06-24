@@ -54,6 +54,7 @@ class OrderAdmin(admin.ModelAdmin):
         'listed_date',
         'get_payment_option',
         'ordered',
+        'pending',
         'processing',
         'cancelled',
         'shipped',
