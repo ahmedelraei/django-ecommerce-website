@@ -1,2 +1,2 @@
 *.sqlite3
-settings.py filter=ignoreline
+*.py filter=ignoreline
