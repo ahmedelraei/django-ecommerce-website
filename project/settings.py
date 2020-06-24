@@ -159,7 +159,10 @@ if not DEBUG:
 
 
 MEDIA_URL  = '/media/'
-MEDIA_ROOT = '/home/ahmedhatem/var/www/media/'
+if DEBUG:
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+else:
+    MEDIA_ROOT = '/home/ahmedhatem/var/www/media/'
 
 ''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
 TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
