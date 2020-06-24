@@ -12,7 +12,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #ignoreline
 
 ALLOWED_HOSTS = ['134.209.229.24','www.elra3i.com','elra3i.com','127.0.0.1']
 
