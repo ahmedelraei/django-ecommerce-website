@@ -10,7 +10,6 @@ from django.conf.urls.static import static
 import os
 import uuid
 
-
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
     PRDcategory = models.ForeignKey('Category',related_name='PRDcat', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
