@@ -10,6 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
+DEBUG = False #ignoreline
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -32,9 +33,6 @@ INSTALLED_APPS = [
     'import_export',
     'django_countries',
     'tinymce',
-    'grappelli',
-    'filebrowser',
-    'ckeditor',
     'product',
     'settings',
     'charts',
@@ -165,10 +163,9 @@ if DEBUG:
 else:
     MEDIA_ROOT = '/home/ahmedhatem/var/www/media/'
 
-TINYMCE_JS_URL = os.path.join(STATIC_URL, "tinymce/tinymce.min.js")
-TINYMCE_JS_ROOT = os.path.join(STATIC_URL, "tinymce")
-
-
+''' TINYMCE_JS_URL = os.path.join(STATIC_URL, "django_tinymce/init_tinymce.js")
+TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "django_tinymce")
+ '''
 #Auth
 AUTHENTICATION_BACKENDS = (
 

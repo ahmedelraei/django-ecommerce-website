@@ -11,8 +11,6 @@ admin.site.index_title = "Elraei Adminstration"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tinymce/', include('tinymce.urls')),
-
     
 ] 
 urlpatterns += i18n_patterns(
