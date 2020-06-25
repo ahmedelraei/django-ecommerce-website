@@ -10,10 +10,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'eq9vwx6-&tk1=_&mb6a#78*06=nlb5v1kk*@qwlh54d-*y-cd_'
+DEBUG = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ['134.209.229.24','www.elra3i.com','elra3i.com','127.0.0.1']
+ALLOWED_HOSTS = [
+    '134.209.229.24',
+    'www.elra3i.com',
+    'elra3i.com',
+    ]
 
 # Application definition
 
