@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block head_title %} {{ product.PRDname }} {% endblock  %}
+{% block head_title %}{{ product.PRDname }}{% endblock  %}
+
+{% block meta_description %}{{ product.PRD_SEO_desc }}{% endblock %}
+{% block meta_keywords %}{{ product.PRDtags }}{% endblock %}
 
 {% block body %}
 

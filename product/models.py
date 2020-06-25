@@ -16,6 +16,8 @@ class Product(models.Model):
     PRDcategory = models.ForeignKey('Category',related_name='PRDcat', on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Category"))
     PRDbrand    = models.ForeignKey('settings.Brand',on_delete=models.CASCADE,blank=True, null=True,verbose_name=_("Brand"))
     PRDdesc  = tinymce_models.HTMLField(verbose_name=_("Description"))
+    PRD_SEO_desc = models.TextField(max_length=300,verbose_name=_("SEO Description"),blank=True, null=True) 
+    PRDtags = models.TextField(max_length=300,verbose_name=_("SEO Tags"),blank=True, null=True) 
     PRDdetails = tinymce_models.HTMLField(verbose_name=_("Details"),blank=True, null=True)
     PRDshipping_notes = models.TextField(max_length=5000,verbose_name=_("Shipping Details"),blank=True, null=True)
     PRDshipping_regions = CountryField(multiple=True,verbose_name=_("Shipping Regions"))
