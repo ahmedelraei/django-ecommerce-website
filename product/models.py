@@ -10,7 +10,7 @@ from tinymce import models as tinymce_models
 from django.conf.urls.static import static
 import os
 import uuid
-from uuslug import slugify as uslug
+
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
