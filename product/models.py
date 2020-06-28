@@ -235,3 +235,6 @@ class ItemVariation(models.Model):
         unique_together = (
             ('variation' , 'value'),
         )
+        
+    def __str__(self):
+        return self.name
