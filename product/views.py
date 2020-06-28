@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import random
 import string
@@ -44,78 +45,27 @@ class cart(LoginRequiredMixin,View):
             return render(self.request,'Product/cart.html')
 
 
-def product_details(request,slug):
-    product_details = Product.objects.get(PRDslug=slug)
+def product_details(request,str):
+    product_details = Product.objects.get(PRDslug=str)
     PRDid = product_details.id
     images = ProductImage.objects.filter(PRD=PRDid)
-    context = {'product':product_details,'images':images}
+    variation = Variation.objects.filter(item=PRDid)
+    context = {'product':product_details,'images':images,'variation':variation}
     return render(request,'Product/product.html',context)
 
 
-class cat(ListView):
-    model = Category
-    template_name = 'Product/category.html'
-
-    def get_queryset(self):
-        kwargs = self.kwargs
-        qs = kwargs.get('slug')
-        category = Category.objects.get(CATslug=qs)
-        cat_id = category.id
-        if category.CATparent:
-            raise Http404()
-        else:
-            subs = Category.objects.filter(CATparent=cat_id)
-            vals = subs.values('id')
-            ids = []
-            for val in vals:
-                id = val.get('id')
-                ids.append(id)
-            subcategory_filter = Product.objects.filter(PRDcategory_id__in=ids)
-            query = Product.objects.filter(PRDcategory_id=cat_id) | subcategory_filter
-            return query
-
-
-class subCategory(ListView):
-    model = Category
-    template_name = 'Product/category.html'
-
-    def get_queryset(self):
-        kwargs = self.kwargs
-        qs = kwargs.get('slug')
-        category = Category.objects.get(CATslug=qs)
-        cat_id = category.id
-        if category.CATparent == None:
-            raise Http404()
-        else:
-            return Product.objects.filter(PRDcategory=cat_id)
-
 def search(request):
-    try:
-        query = request.GET.get('q')
-    except:
-        query = None
-    if query:
-        results = Product.objects.filter(
-            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query)
-            )
-        """ results = Product.objects.annotate(
-            search=SearchVector('PRDname','PRDdesc','PRDdetails')
-        ).filter(search=query) """
-        context = {'query':query,'results':results}
-        template= 'Product/results.html'
-        
-    else:
-        raise Http404()
-
+    context = {}
+    template= 'Product/results.html'
     return render(request, template, context)
 
 @login_required
-def addToCart(request,slug):
-    item = get_object_or_404(Product,PRDslug=slug)
+def addToCart(request,str):
+    item = get_object_or_404(Product,PRDslug=str)
     order_item,created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False
+        ordered=False,
         )
     order_qs = Order.objects.filter(user=request.user, ordered=False)
 
@@ -125,21 +75,21 @@ def addToCart(request,slug):
             order_item.quantity +=1
             order_item.save()
             messages.info(request,"This Item Quantity was updated.")
-            return redirect("products:product_details" ,slug=slug)
+            return redirect("products:product_details" ,str=str)
         else:
             order.items.add(order_item)
             messages.info(request,"This Item is Added to your cart.")
-            return redirect("products:product_details" ,slug=slug)
+            return redirect("products:product_details" ,str=str)
     else:
 
         order = Order.objects.create(user=request.user,order_ref=ref_code_generator())
         order.items.add(order_item)
         messages.info(request,"This Item is Added to your cart.")
-    return redirect("products:product_details" ,slug=slug)
+    return redirect("products:product_details" ,str=str)
 
 @login_required
-def increaseCart(request,slug):
-    item = get_object_or_404(Product,PRDslug=slug)
+def increaseCart(request,str):
+    item = get_object_or_404(Product,PRDslug=str)
     order_item,created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
@@ -157,17 +107,17 @@ def increaseCart(request,slug):
         else:
             order.items.add(order_item)
             messages.info(request,"This Item is Added to your cart.")
-            return redirect("products:product_details" ,slug=slug)
+            return redirect("products:product_details" ,str=str)
     else:
         ordered_date = timezone.now()
         order = Order.objects.create(user=request.user,ordered_date=ordered_date)
         order.items.add(order_item)
         messages.info(request,"This Item is Added to your cart.")
-    return redirect("products:product_details" ,slug=slug)
+    return redirect("products:product_details" ,str=str)
 
 @login_required
-def removeFromCart(request,slug):
-    item = get_object_or_404(Product,PRDslug=slug)
+def removeFromCart(request,str):
+    item = get_object_or_404(Product,PRDslug=str)
 
     order_qs = Order.objects.filter(
         user=request.user,
@@ -187,15 +137,15 @@ def removeFromCart(request,slug):
             return redirect("products:cart")
         else:
             messages.info(request,"This Item was not in your cart.")
-            return redirect("products:product_details" ,slug=slug)
+            return redirect("products:product_details" ,str=str)
     else:
         messages.info(request,"Yoou do not have an active order.")
-        return redirect("products:product_details" ,slug=slug)
+        return redirect("products:product_details" ,str=str)
 
 
 @login_required
-def decreaseFromCart(request,slug):
-    item = get_object_or_404(Product,PRDslug=slug)
+def decreaseFromCart(request,str):
+    item = get_object_or_404(Product,PRDslug=str)
 
     order_qs = Order.objects.filter(
         user=request.user,
@@ -219,10 +169,10 @@ def decreaseFromCart(request,slug):
             return redirect("products:cart")
         else:
             messages.info(request,"This Item was not in your cart.")
-            return redirect("products:product_details" ,slug=slug)
+            return redirect("products:product_details" ,str=str)
     else:
         messages.info(request,"Yoou do not have an active order.")
-        return redirect("products:product_details" ,slug=slug)
+        return redirect("products:product_details" ,str=str)
 
 def is_valid_form(values):
     valid = True

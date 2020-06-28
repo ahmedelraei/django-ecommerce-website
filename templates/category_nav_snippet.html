@@ -27,7 +27,7 @@ function handleData(data){
         let category = data[n];
         catnav.innerHTML += `
         <li class="nav-item">
-            <a class="nav-link" href="${category.url}">${category.CATname}</a>
+            <a class="nav-link" href="/s/?q=${category.CATslug}">${category.CATname}</a>
         </li>`;
 
     }

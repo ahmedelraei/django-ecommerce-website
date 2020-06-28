@@ -35,8 +35,6 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.get_shipping_regions()
 
 class CategorySerializer(serializers.ModelSerializer):
-    
-    url = serializers.CharField(source='get_absolute_url')
     class Meta:
         model = Category
         fields = ("__all__")

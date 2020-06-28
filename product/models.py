@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
@@ -9,7 +10,7 @@ from tinymce import models as tinymce_models
 from django.conf.urls.static import static
 import os
 import uuid
-
+from uuslug import slugify as uslug
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
@@ -27,14 +28,13 @@ class Product(models.Model):
     PRDcost  = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Cost:"))
     stock_quantity = models.IntegerField(default=1,verbose_name=_("In Stock:"))
     PRDcreated = models.DateTimeField(verbose_name=_("Created at:"))
-    PRDslug    = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"))
+    PRDslug    = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"),allow_unicode=True)
     PRDisNew = models.BooleanField(default=True, verbose_name=_("NEW:"))
     PRDisTrend = models.BooleanField(default=False,verbose_name=_("Trending:"))
 
-
     def save(self, *args, **kwargs):
         if not self.PRDslug:
-            self.PRDslug = slugify(self.PRDname)
+            self.PRDslug = slugify(self.PRDname, allow_unicode=True)
             super(Product,self).save(*args, **kwargs)
         else:
             super(Product,self).save(*args, **kwargs)
@@ -44,13 +44,16 @@ class Product(models.Model):
         verbose_name_plural = _("Products")
 
     def get_absolute_url(self):
-        return reverse("products:product_details", kwargs={"slug": self.PRDslug})
+        print(self.PRDslug,"##################################")
+        return reverse("products:product_details", kwargs={"str": self.PRDslug})
     
     def get_addToCart_url(self):
-        return reverse("products:add-to-cart", kwargs={"slug": self.PRDslug})
+        print(self.PRDslug,"##################################")
+        return reverse("products:add-to-cart", kwargs={"str": self.PRDslug})
 
     def get_removeFromCart_url(self):
-        return reverse("products:remove-from-cart", kwargs={"slug": self.PRDslug})
+        print(self.PRDslug,"##################################")
+        return reverse("products:remove-from-cart", kwargs={"str": self.PRDslug})
 
     def getPrice(self):
         if self.PRDdiscount:
@@ -97,12 +100,12 @@ class Category(models.Model):
     CATparent  = models.ForeignKey('self',limit_choices_to={'CATparent__isnull':True},on_delete=models.CASCADE,verbose_name=_("Main Category:"),blank=True, null=True)
     CATdesc  = models.TextField(max_length=5000,)
     CATimg   = models.ImageField(upload_to='category/',blank=True, null=True)
-    CATslug  = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"))
+    CATslug  = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"), allow_unicode=True)
 
 
     def save(self, *args, **kwargs):
         if not self.CATslug:
-            self.CATslug = slugify(self.CATname)
+            self.CATslug = slugify(self.CATname, allow_unicode=True)
             super(Category,self).save(*args, **kwargs)
         else:
             super(Category,self).save(*args, **kwargs)
@@ -114,10 +117,7 @@ class Category(models.Model):
 
 
     def get_absolute_url(self):
-        if self.CATparent:
-            return reverse("products:sub-category", kwargs={"slug": self.CATslug})
-        else:
-            return reverse("products:category", kwargs={"slug": self.CATslug})
+        return reverse("products:categories", kwargs={"str": self.CATslug})
 
 
     def __str__(self):
@@ -154,6 +154,7 @@ class OrderItem(models.Model):
     on_delete=models.CASCADE, verbose_name=_("User"))
     ordered = models.BooleanField(default=False,verbose_name=_("Order item State"))   
     item = models.ForeignKey(Product,on_delete=models.CASCADE)
+    #item_variation = models.ManyToManyField('ItemVariation')
     quantity = models.IntegerField(default=1)
     
     def __str__(self):
@@ -211,3 +212,26 @@ class Order(models.Model):
     
     def get_cancel_url(self):
         return reverse('clients:cancel-order',kwargs={'code':self.order_ref})
+    
+
+class Variation(models.Model):
+    item = models.ForeignKey(Product,on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = (
+            ('item' , 'name'),
+        )
+    
+    def __str__(self):
+        return self.name
+
+class ItemVariation(models.Model):
+    variation = models.ForeignKey(Variation,on_delete=models.CASCADE)
+    value = models.CharField(max_length=100)
+    image = models.ImageField()
+
+    class Meta:
+        unique_together = (
+            ('variation' , 'value'),
+        )

@@ -10,7 +10,6 @@
 <section class="text-center mt-5">
     
   <div class="row">
-
   <div class="col-lg-6">
 
       <!--Carousel Wrapper-->
@@ -158,48 +157,38 @@
 
       </div>
       <!--/.Accordion wrapper-->
+    {% for var in variation  %}
+      <section>
+        <div class="mt-5">
+          <p class="grey-text">Choose your {{ var.name }}</p>
+            <div class="row text-center text-md-left">
 
-      <!-- Add to Cart -->
-      <section class="color">
-      <div class="mt-5">
-          <p class="grey-text">Choose your color</p>
-          <div class="row text-center text-md-left">
+                {% for item_var in var.itemvariation_set.all %}
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <input class="form-check-input" name="group100" type="radio" id="radio100" checked="checked">
+                        <label for="radio100" class="form-check-label dark-grey-text">{{ item_var.value }}</label>
+                    </div>
+                </div>
+                {% endfor %}
 
-          <div class="col-md-4 col-12">
-              <!--Radio group-->
-              <div class="form-group">
-              <input class="form-check-input" name="group100" type="radio" id="radio100" checked="checked">
-              <label for="radio100" class="form-check-label dark-grey-text">Blue</label>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <!--Radio group-->
-              <div class="form-group">
-              <input class="form-check-input" name="group100" type="radio" id="radio101">
-              <label for="radio101" class="form-check-label dark-grey-text">Orange</label>
-              </div>
-          </div>
-          <div class="col-md-4">
-              <!--Radio group-->
-              <div class="form-group">
-              <input class="form-check-input" name="group100" type="radio" id="radio102">
-              <label for="radio102" class="form-check-label dark-grey-text">Red</label>
-              </div>
-          </div>
-          </div>
-
-          <div class="row mt-3">
-          <div class="col-md-6 text-center text-md-left text-md-right">
-              <a href="{{product.get_addToCart_url}}">
-                    <button class="btn btn-primary btn-rounded">
-                        <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart
-                    </button>
-                </a>
-          </div>
-
-          </div>
-      </div>
+            </div>
+        </div>
       </section>
+      {% endfor %}
+      <!-- Add to Cart -->
+
+    <div class="row mt-3">
+        <div class="col-md-6 text-center text-md-left text-md-right">
+            <a href="{{product.get_addToCart_url}}">
+                <button class="btn btn-primary btn-rounded">
+                    <i class="fas fa-cart-plus mr-2" aria-hidden="true"></i> Add to cart
+                </button>
+            </a>
+        </div>
+
+        </div>
+    </div>
       <!-- /.Add to Cart -->
 
   </div>

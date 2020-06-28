@@ -6,6 +6,7 @@ from clients.models import Address
 
 class inlineAccessories(admin.StackedInline):
     model = Product_Accessories
+    extra = 1
 
 class ProductAdmin(ImportExportModelAdmin):
     inlines = [inlineAccessories]
@@ -68,11 +69,35 @@ class OrderAdmin(admin.ModelAdmin):
 
     get_payment_option.short_description  = 'Payment Type'
     list_display_links = ('user',)
-    list_filter = ('ordered_date','ordered','listed_date','payment','orderTotal')
+    list_filter = ('ordered_date','ordered','listed_date','orderTotal','payment__payment_type')
     search_fields = ('user__username','order_ref')
 
+
+class ItemVariationAdmin(admin.ModelAdmin):
+    list_display = (
+        'variation',
+        'value',
+        'image',
+    )   
+    list_filter = ('variation','variation__item')
+    search_fields = ['value']
+
+class ItemVariationInlineAdmin(admin.TabularInline):
+    model = ItemVariation
+    extra = 1
+
+class VariationAdmin(admin.ModelAdmin):
+    list_display = (
+        'item',
+        'name',
+    )   
+    list_filter = ('item',)
+    search_fields = ['name']
+    inlines = [ItemVariationInlineAdmin]
 
 admin.site.register(OrderItem,OrderItemAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(MainSlider)
+admin.site.register(ItemVariation,ItemVariationAdmin)
+admin.site.register(Variation,VariationAdmin)
 

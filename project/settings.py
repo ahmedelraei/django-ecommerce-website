@@ -225,3 +225,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
+
+ALLOW_UNICODE_SLUGS = True
