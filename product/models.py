@@ -37,14 +37,12 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.PRDslug:
             self.PRDslug = slugify(self.PRDname, allow_unicode=True)
-        else:
-            pass
-
-        image = _img.open(BytesIO(self.PRDimage.read()))
-        output = BytesIO()
-        image.save(output, format='webp')
-        output.seek(0)
-        self.PRDimage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRDslug, 'image/webp',output.tell(), None)
+        if self.PRDimage:
+            image = _img.open(BytesIO(self.PRDimage.read()))
+            output = BytesIO()
+            image.save(output, format='webp')
+            output.seek(0)
+            self.PRDimage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRDslug, 'image/webp',output.tell(), None)
 
         super(Product,self).save(*args, **kwargs)
         
@@ -96,13 +94,14 @@ class ProductImage(models.Model):
         return str(self.PRD)
     
     def save(self, *args, **kwargs):
-        if self.PRDImage:
-            image = _img.open(BytesIO(self.PRDImage.read()))
+        if self.PRDimage:
+            image = _img.open(BytesIO(self.PRDimage.read()))
             output = BytesIO()
             image.save(output, format='webp')
             output.seek(0)
-            self.PRDImage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRD.PRDslug, 'image/webp',output.tell(), None)
-            super(ProductImage,self).save(*args, **kwargs)
+            self.PRDimage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRDslug, 'image/webp',output.tell(), None)
+
+        super(ProductImage,self).save(*args, **kwargs)
 
 class MainSlider(models.Model):
     SDRimg = models.ImageField(upload_to='MainSlider/',verbose_name=_("Slide:"))
