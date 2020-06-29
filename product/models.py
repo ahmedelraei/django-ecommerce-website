@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
@@ -10,7 +11,8 @@ from tinymce import models as tinymce_models
 from django.conf.urls.static import static
 import os
 import uuid
-
+from PIL import Image as _img
+from io import BytesIO
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
@@ -35,9 +37,18 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.PRDslug:
             self.PRDslug = slugify(self.PRDname, allow_unicode=True)
-            super(Product,self).save(*args, **kwargs)
         else:
-            super(Product,self).save(*args, **kwargs)
+            pass
+
+        image = _img.open(BytesIO(self.PRDimage.read()))
+        output = BytesIO()
+        image.save(output, format='webp')
+        output.seek(0)
+        self.PRDimage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRDslug, 'image/webp',output.tell(), None)
+
+        super(Product,self).save(*args, **kwargs)
+        
+        
             
     class Meta:
         verbose_name = _("Product")
@@ -83,6 +94,14 @@ class ProductImage(models.Model):
     
     def __str__(self):
         return str(self.PRD)
+    
+    def save(self, *args, **kwargs):
+        image = _img.open(BytesIO(self.PRDImage.read()))
+        output = BytesIO()
+        image.save(output, format='webp')
+        output.seek(0)
+        self.PRDImage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRD.PRDslug, 'image/webp',output.tell(), None)
+        super(ProductImage,self).save(*args, **kwargs)
 
 class MainSlider(models.Model):
     SDRimg = models.ImageField(upload_to='MainSlider/',verbose_name=_("Slide:"))
@@ -114,10 +133,6 @@ class Category(models.Model):
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
-
-
-    def get_absolute_url(self):
-        return reverse("products:categories", kwargs={"str": self.CATslug})
 
 
     def __str__(self):

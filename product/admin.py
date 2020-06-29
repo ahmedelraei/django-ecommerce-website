@@ -8,8 +8,12 @@ class inlineAccessories(admin.StackedInline):
     model = Product_Accessories
     extra = 1
 
+class InlineProductImage(admin.StackedInline):
+    model = ProductImage
+    extra = 1
+
 class ProductAdmin(ImportExportModelAdmin):
-    inlines = [inlineAccessories]
+    inlines = [inlineAccessories,InlineProductImage]
     list_display = ('PRDname','PRDcategory','PRDbrand','PRDprice','PRDdiscount','PRDslug')
     list_display_links = ('PRDname',)
     list_editable = ('PRDprice','PRDdiscount','PRDslug')
