@@ -95,11 +95,11 @@ class ProductImage(models.Model):
     
     def save(self, *args, **kwargs):
         if self.PRDImage:
-            image = _img.open(BytesIO(self.PRDimage.read()))
+            image = _img.open(BytesIO(self.PRDImage.read()))
             output = BytesIO()
             image.save(output, format='webp')
             output.seek(0)
-            self.PRDimage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRDslug, 'image/webp',output.tell(), None)
+            self.PRDImage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRD.PRDslug, 'image/webp',output.tell(), None)
 
         super(ProductImage,self).save(*args, **kwargs)
 
