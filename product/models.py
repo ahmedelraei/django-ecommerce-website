@@ -94,7 +94,7 @@ class ProductImage(models.Model):
         return str(self.PRD)
     
     def save(self, *args, **kwargs):
-        if self.PRDimage:
+        if self.PRDImage:
             image = _img.open(BytesIO(self.PRDimage.read()))
             output = BytesIO()
             image.save(output, format='webp')
