@@ -96,12 +96,13 @@ class ProductImage(models.Model):
         return str(self.PRD)
     
     def save(self, *args, **kwargs):
-        image = _img.open(BytesIO(self.PRDImage.read()))
-        output = BytesIO()
-        image.save(output, format='webp')
-        output.seek(0)
-        self.PRDImage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRD.PRDslug, 'image/webp',output.tell(), None)
-        super(ProductImage,self).save(*args, **kwargs)
+        if self.PRDImage:
+            image = _img.open(BytesIO(self.PRDImage.read()))
+            output = BytesIO()
+            image.save(output, format='webp')
+            output.seek(0)
+            self.PRDImage = InMemoryUploadedFile(output,'ImageField', "%s.webp" %self.PRD.PRDslug, 'image/webp',output.tell(), None)
+            super(ProductImage,self).save(*args, **kwargs)
 
 class MainSlider(models.Model):
     SDRimg = models.ImageField(upload_to='MainSlider/',verbose_name=_("Slide:"))
