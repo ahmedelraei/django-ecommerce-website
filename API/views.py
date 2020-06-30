@@ -18,31 +18,36 @@ class ProductListAPI(ListAPIView):
             return Product.objects.all()
 
         if filter == None:
+            query = kw['query'].replace('-',' ')
             return Product.objects.filter(
-            Q(PRDname__icontains=kw['query']) | Q(PRDdesc__icontains=kw['query'])
-            | Q(PRDcategory__CATname__icontains=kw['query'])
+            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query)
+            | Q(PRDcategory__CATname__icontains=query)
             )
 
         elif filter == 'low-high':
+            query = kw['query'].replace('-',' ')
             return Product.objects.filter(
-            Q(PRDname__icontains=kw['query']) | Q(PRDdesc__icontains=kw['query'])
-            | Q(PRDcategory__CATname__icontains=kw['query'])
+            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query)
+            | Q(PRDcategory__CATname__icontains=query)
             ).order_by('PRDprice')
         
         elif filter == 'high-low':
+            query = kw['query'].replace('-',' ')
             return Product.objects.filter(
-            Q(PRDname__icontains=kw['query']) | Q(PRDdesc__icontains=kw['query'])
-            | Q(PRDcategory__CATname__icontains=kw['query'])
+            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query)
+            | Q(PRDcategory__CATname__icontains=query)
             ).order_by('-PRDprice')
 
         elif filter == 'trending':
+            query = kw['query'].replace('-',' ')
             return Product.objects.filter(
-            Q(PRDname__icontains=kw['query']) | Q(PRDdesc__icontains=kw['query']) | Q(PRDcategory__CATname__icontains=kw['query']),
+            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query) | Q(PRDcategory__CATname__icontains=query),
             PRDisTrend=True
             )
         elif filter == 'new':
+            query = kw['query'].replace('-',' ')
             return Product.objects.filter(
-            Q(PRDname__icontains=kw['query']) | Q(PRDdesc__icontains=kw['query']) | Q(PRDcategory__CATname__icontains=kw['query']),
+            Q(PRDname__icontains=query) | Q(PRDdesc__icontains=query) | Q(PRDcategory__CATname__icontains=query),
             PRDisNew=True
             )
 
