@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, View
 from product.models import Order
-
+from django.http import HttpResponseRedirect
 from .forms import EditAddressForm, editProfile, trackOrderForm , CancelOrderForm
 from .models import Address, Profile
 
@@ -147,3 +147,10 @@ class CancelOrder(View):
         except ObjectDoesNotExist:
             messages.info(self.request,'no such order')
             return redirect('clients:track-order')
+
+def SelectCurrency(request):
+    last_url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+        request.session['currency'] = request.POST['currency']
+    
+    return HttpResponseRedirect(last_url)

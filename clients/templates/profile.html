@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load currency %}
 
 {% block body %}
+{% with request.session.currency as session_currency  %}
+
 <main class="mt-5">
 <div class="container emp-profile">
 <form method="post">
@@ -145,7 +147,7 @@
                                 {% endif %}
                                     
                                 </td>
-                                <td>{{order.getTotal}}</td>
+                                <td>{{order.getTotal |currency:session_currency}} {{session_currency}}</td>
                                 <td>{{order.order_ref}}</td>
                             </tr>
                             {% endfor %}
@@ -168,4 +170,5 @@ console.log(img)
 </script>
 
 </main>
+{% endwith %}
 {% endblock body %}

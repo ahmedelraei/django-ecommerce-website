@@ -11,6 +11,7 @@ admin.site.site_title = "Elraei Admin Panel"
 admin.site.index_title = "Elraei Adminstration"
 
 urlpatterns = [
+    path('currencies/', include('currencies.urls')),
     path('admin/', admin.site.urls),
     
 ] 

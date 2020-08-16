@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'paypal.standard.ipn',
     'clients',
     'administration',
-    
+    'currencies',
 
 ]
 
@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'currencies.context_processors.currencies',
             ],
         },
     },
@@ -227,3 +228,6 @@ REST_FRAMEWORK = {
 }
 
 ALLOW_UNICODE_SLUGS = True
+
+# Currency
+DEFAULT_CURRENCY = 'EGP'

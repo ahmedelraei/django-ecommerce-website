@@ -2,10 +2,13 @@ from product.models import Product , Category , Order
 from clients.models import Address
 from rest_framework import serializers
 import datetime
+from currencies.models import Currency
+
 
 class ProductSerializer(serializers.ModelSerializer):
     PRDcategory = serializers.StringRelatedField()
     PRDshipping_regions = serializers.SerializerMethodField()
+    PRDprice = serializers.SerializerMethodField()
     PRDbrand = serializers.StringRelatedField()
     url = serializers.CharField(source='get_absolute_url')
     img = serializers.CharField(source='GetMainimg')
@@ -22,7 +25,6 @@ class ProductSerializer(serializers.ModelSerializer):
                 'PRDimage',
                 'PRDprice',
                 'PRDdiscount',
-                'PRDcost',
                 'stock_quantity',
                 'PRDcreated',
                 'PRDslug',
@@ -33,6 +35,14 @@ class ProductSerializer(serializers.ModelSerializer):
         )
     def get_PRDshipping_regions(self,obj):
         return obj.get_shipping_regions()
+    
+    def get_PRDprice(self,obj):
+        price = obj.PRDprice
+        currency = Currency.objects.all()
+        request = self.context.get('request')
+        if request.session['currency'] == 'EGP':
+           price = obj.PRDprice * currency[0].factor
+        return price
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +50,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ("__all__")
 
 class OrderSerializer(serializers.ModelSerializer):
-    total = serializers.FloatField(source='getTotal')
+    total = serializers.SerializerMethodField()
     state = serializers.CharField(source='getState')
     cancel_url = serializers.CharField(source='get_cancel_url')
     items = serializers.SerializerMethodField()
@@ -57,6 +67,14 @@ class OrderSerializer(serializers.ModelSerializer):
         for orderitem in obj.items.all():
             items.append(orderitem.__str__() + ' of id = ' + str(orderitem.item.pk))
         return items
+
+    def get_total(self,obj):
+        total = obj.getTotal()
+        currency = Currency.objects.all()
+        request = self.context.get('request')
+        if request.session['currency'] == 'EGP':
+           total = total * currency[0].factor
+        return total
     
     def get_shippingAddress(self,obj):
         address = {

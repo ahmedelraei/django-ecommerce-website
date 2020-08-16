@@ -1,12 +1,14 @@
 {% load static %}
 {% load cart_template_tag %}
 {% load i18n %}
+{% load currency %}
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon/favicon.ico' %}"/>
         <link rel="stylesheet" href="{% static 'site_static/icons/all.css'%}">
         <link rel="stylesheet" href="{% static 'site_static/css/bootstrap.min.css'%}">
         <link rel="stylesheet" href="{% static 'site_static/css/mdb.min.css'%}">
@@ -28,18 +30,38 @@
     
 
         <!-- Start Upper-NavBar-->
+        <input type="hidden" id="session_currency_hidden" data-value="{{request.session.currency}}" />
 
         <nav class="nav upper-nav animated fadeInRight">
           <a class="nav-link active" href="#">{% trans "Privacy Policy" %}</a>
           <a class="nav-link" href="{% url 'clients:track-order' %}">{% trans "Tracking Order" %}</a>
           <a class="nav-link" href="#">{% trans "Support" %}</a>
+          <div class="curr_switch">
+            <form id="currency_switcher" method="POST" action="{% url 'clients:select-currency' %}">
+              {% csrf_token %}
+              <select name="currency" onchange="this.form.submit()">
+                {% for currency in CURRENCIES %}
+                  <option value="{{currency.code}}"
+                  
+                  {% ifequal currency.code request.session.currency %}
+                    selected="selected"
+                  {% endifequal %}
+                  >
+                  {{currency.code}}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </div>
+
         </nav>
 
         <!-- End Upper-NavBar-->
 
         <!-- Start NavBar-->
         <nav id="main-navbar" class="navbar main-nav navbar-expand-lg navbar-light animated fadeInDown">
-            <a class="navbar-brand" href="/"><span>El</span><span>raei</span></a>
+
+            <a id="site-logo" class="navbar-brand" href="/"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -70,7 +92,7 @@
                         <i class="fas fa-user-plus mr-2"></i><b>{% trans "Logout" %}</b>
                       </a>
                     </div>
-                    </li>                 
+                  </li>                 
                   {% else %}
                   <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

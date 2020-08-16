@@ -32,6 +32,11 @@ def home(request):
     products = Product.objects.all()
     cats = Category.objects.all()
     slider = MainSlider.objects.all()
+
+    DEFAULT_CURRENCY = settings.DEFAULT_CURRENCY
+    if not request.session.has_key('currency'):
+        request.session['currency'] = DEFAULT_CURRENCY
+
     context = {'products':products,'cats':cats,'slider':slider}
     return render(request,'Product/index.html',context)
 

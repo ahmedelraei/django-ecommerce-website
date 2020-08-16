@@ -4,9 +4,9 @@
 
 {% block meta_description %}{{ product.PRD_SEO_desc }}{% endblock %}
 {% block meta_keywords %}{{ product.PRDtags }}{% endblock %}
-
+{% load currency %}
 {% block body %}
-
+{% with request.session.currency as session_currency  %}
 <section class="text-center mt-5">
     
   <div class="row">
@@ -63,18 +63,18 @@
       {% if product.PRDdiscount %}
       <h3 class="h3-responsive text-center text-md-left mb-5 ml-xl-0 ml-4">
         <span class="red-text font-weight-bold">
-            <strong>{{product.PRDdiscount}}</strong>
+            <strong>{{ product.PRDdiscount |currency:session_currency }} {{session_currency}}</strong>
         </span>
         <span class="grey-text">
             <small>
-            <s>{{product.PRDprice}}</s>
+            <s>{{ product.PRDprice |currency:session_currency }} {{session_currency}}</s>
             </small>
         </span>
         </h3>
       {% else %}
         <h3 class="h3-responsive text-center text-md-left mb-5 ml-xl-0 ml-4">
           <span class="red-text font-weight-bold">
-              <strong>{{product.PRDprice}}</strong>
+              <strong>{{ product.PRDprice |currency:session_currency }} {{session_currency}}</strong>
           </span>
           </h3>
       {% endif %}
@@ -205,6 +205,6 @@
   <!--Section: Content-->
 
 
-
+{% endwith %}
 {% endblock body %}
   

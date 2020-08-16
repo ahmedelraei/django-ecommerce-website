@@ -29,10 +29,26 @@ $(function () {
     });
   })
 
+const session_currency = $("#session_currency_hidden").data('value');
+
 
 window.onload = function (){
     const query = window.location.search.split('=')[1];
     const endpoint = '/api/product-list/' + query;
+
+    const siteData_endpoint = '/administration/site-data/';
+    $.ajax({
+    method: 'GET',
+    url: siteData_endpoint,
+    success: function (data){
+      console.log(data);
+      document.getElementById('site-logo').innerHTML = `<img style="max-height:150px;max-width:150px" src="${data.logo}"/>`;
+    },
+    error: function (error){
+      console.log(error)
+    }
+    });
+
 
     $.ajax({
         method: 'GET',
@@ -70,7 +86,7 @@ window.onload = function (){
                         ${isNew}
                         </center>
                         
-                    <center><h4 class="item-price"><strong>${item.PRDprice}</strong></h4></center>
+                    <center><h4 class="item-price"><strong>${item.PRDprice} ${session_currency}</strong></h4></center>
 
                 </div>
               </div>
@@ -83,6 +99,7 @@ window.onload = function (){
             console.log(error)
         },
     });
+
 };
 
 function filter(filter){
@@ -137,7 +154,7 @@ function filter(filter){
                         ${isNew}
                         </center>
                         
-                    <center><h4 class="item-price"><strong>${item.PRDprice}</strong></h4></center>
+                    <center><h4 class="item-price"><strong>${item.PRDprice} ${session_currency}</strong></h4></center>
 
                 </div>
                 </div>
@@ -189,7 +206,7 @@ function trackResult(){
                                         
                                     </ul>
                                 </td>
-                                <td class="font-weight-bold">${order.total}</td>
+                                <td class="font-weight-bold">${order.total} ${session_currency}</td>
                                 <td class="font-weight-bold">
                                     ${order.shippingAddress.address2} 
                                 <br>${(order.shippingAddress.street_address).slice(0,19)}

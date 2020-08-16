@@ -2,7 +2,10 @@
 {% load static %}
 t{% block head_title %}Elraei Store | الراعي.كوم{% endblock %}
 {% block body %}
+{% load currency %}
 
+{% with request.session.currency as session_currency  %}
+  
   <!--Start Slider-->
   <div class="slider">
     <div id="main-slider" class="carousel slide" data-ride="carousel">
@@ -47,7 +50,7 @@ t{% block head_title %}Elraei Store | الراعي.كوم{% endblock %}
                     <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
                     <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></a></center>
                     <center><span class="badge badge-success">NEW</span></center>
-                    <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
+                    <center><h4 class="item-price"><strong>{{ product.PRDprice |currency:session_currency }} {{session_currency}}</strong></h4></center>
 
                 </div>
             </div>
@@ -136,7 +139,7 @@ t{% block head_title %}Elraei Store | الراعي.كوم{% endblock %}
                     <center><h5 class="grey-text">{{product.PRDcategory}}</h5></center>
                     <center><a href="{{product.get_absolute_url}}"><h4 class="card-title">{{product.PRDname}}</h4></a></center>
                     <center><span class="badge badge-danger">Trending</span></center>
-                    <center><h4 class="item-price"><strong>{{product.getPrice}}</strong></h4></center>
+                    <center><h4 class="item-price"><strong>{{ product.getPrice |currency:session_currency }} {{session_currency}}</strong></h4></center>
 
                 </div>
             </div>
@@ -155,8 +158,8 @@ t{% block head_title %}Elraei Store | الراعي.كوم{% endblock %}
   </div>        
   <!-- End Trending -->
 
-
+{% endwith %}
 {% endblock body %}
-      
+     
 
         

@@ -17,7 +17,6 @@ class Profile(models.Model):
     phone = models.CharField(max_length=30,blank=True,null=True)
     Tel   = models.CharField(max_length=30 ,blank=True,null=True)
     address = models.ManyToManyField('Address',verbose_name=_("Address"),blank=True)
-
     
     def __str__(self):
         return self.user.username
