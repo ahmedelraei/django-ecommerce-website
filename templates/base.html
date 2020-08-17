@@ -53,6 +53,30 @@
               </select>
             </form>
           </div>
+          <div class="lang_switch">
+            <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                <select name="language" onchange="this.form.submit()">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                          {{ language.name_local }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+          </div>
+        <script>
+        // ################### RTL ###################
+          if ( '{{LANGUAGE_CODE}}' === 'ar'){
+            document.head.innerHTML += `
+              <link rel="stylesheet" href="{% static 'site_static/css/bootstrap-rtl.css'%}">
+            `
+            document.querySelector('.lang_switch').className = "lang_switch_rtl";
+            document.querySelector('.curr_switch').className = "curr_switch_rtl";
+          }
+        </script>
 
         </nav>
 
@@ -165,23 +189,7 @@
                           <li>Gaming</li>
                         </ul>
                       </div>
-                      <div class="col">
-                        <ul>
-                            <ol><a href="/en">English</a></ol>
-                            <ol><a id="ar-choice" href="/ar">العربية</a></ol>
-                        </ul>
 
-                        <script>
-                          console.log((window.location.href).split("/")[3]);
-                          if ((window.location.href).split("/")[3] === 'ar'){
-                            document.head.innerHTML += `
-                              <link rel="stylesheet" href="{% static 'site_static/css/bootstrap-rtl.css'%}">
-                            
-                            `
-                          }
-                        </script>
-
-                      </div>
                     </div>
                   </div>
                 </div>

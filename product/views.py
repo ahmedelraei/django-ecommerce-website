@@ -17,7 +17,7 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView, View
 from payment.models import Payment
 from clients.models import Address, Profile
-
+from currencies.models import Currency
 from .extras import *
 from .forms import *
 from .models import *
@@ -33,9 +33,9 @@ def home(request):
     cats = Category.objects.all()
     slider = MainSlider.objects.all()
 
-    DEFAULT_CURRENCY = settings.DEFAULT_CURRENCY
+    DEFAULT_CURRENCY = Currency.objects.get(is_default=1)
     if not request.session.has_key('currency'):
-        request.session['currency'] = DEFAULT_CURRENCY
+        request.session['currency'] = DEFAULT_CURRENCY.code
 
     context = {'products':products,'cats':cats,'slider':slider}
     return render(request,'Product/index.html',context)

@@ -98,11 +98,51 @@ body{
 .curr_switch select{
     height: 40px;
     background: rgba(0, 0, 0, 0);
-    color: #fff;
 }
 .curr_switch select option:not(:checked) {
     color: #000;
 }
+
+
+.lang_switch{
+    position: absolute;
+    right: 70px;
+
+}
+
+.lang_switch select{
+    height: 40px;
+    background: rgba(0, 0, 0, 0);
+}
+.lang_switch select option:not(:checked) {
+    color: #000;
+}
+/* RTL */
+
+.curr_switch_rtl{
+    position: absolute;
+    left: 10px;
+}
+.curr_switch_rtl select{
+    height: 40px;
+    background: rgba(0, 0, 0, 0);
+}
+.curr_switch_rtl select option:not(:checked) {
+    color: #000;
+}
+
+.lang_switch_rtl{
+    position: absolute;
+    left: 70px;
+}
+.lang_switch_rtl select{
+    height: 40px;
+    background: rgba(0, 0, 0, 0);
+}
+.lang_slang_switch_rtlwitch select option:not(:checked) {
+    color: #000;
+}
+
 /* Start navbar */
 
 .main-nav{

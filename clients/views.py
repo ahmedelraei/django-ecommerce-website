@@ -9,7 +9,7 @@ from product.models import Order
 from django.http import HttpResponseRedirect
 from .forms import EditAddressForm, editProfile, trackOrderForm , CancelOrderForm
 from .models import Address, Profile
-
+from django.utils import translation
 
 class profile(View):
     def get(self,*args,**kwargs):
@@ -154,3 +154,10 @@ def SelectCurrency(request):
         request.session['currency'] = request.POST['currency']
     
     return HttpResponseRedirect(last_url)
+
+
+def SelectLang(request):
+    if request.method == 'POST':
+        user_lang = request.POST['user_lang']
+        translation.activate()
+        request.session[translation.LANGUAGE_SESSION_KEY] = user_lang

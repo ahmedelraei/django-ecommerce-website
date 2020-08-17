@@ -11,11 +11,11 @@ admin.site.site_title = "Elraei Admin Panel"
 admin.site.index_title = "Elraei Adminstration"
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
+] 
+urlpatterns += [
     path('currencies/', include('currencies.urls')),
     path('admin/', admin.site.urls),
-    
-] 
-urlpatterns += i18n_patterns(
     path('',include('product.urls',namespace='products')),
     path('',include('clients.urls',namespace='clients')),
     path('designer/',include('designer.urls',namespace='designer')),
@@ -26,9 +26,8 @@ urlpatterns += i18n_patterns(
     path('administration/',include('administration.urls',namespace='administration')),
     path('tinymce/', include('tinymce.urls')),
     path('api/', include('API.urls',namespace='API')),
-    prefix_default_language=True,
+]
 
-)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

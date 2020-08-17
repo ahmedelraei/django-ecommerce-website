@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load cart_template_tag %}
 {% load crispy_forms_tags %}
-
+{% load currency %}
 
 {% block body %}
+{% with request.session.currency as session_currency  %}
 
 <main class="mt-2 pt-4">
   <div class="container wow fadeIn">
@@ -132,9 +133,9 @@
                 <h6 class="my-0">{{order_item.item.PRDname}}
                   <span class="badge badge-danger">{{order_item.quantity}}</span>
                 </h6>
-                <small class="text-muted">{{order_item.item.PRDdesc}}</small>
+                <small class="text-muted">{{order_item.item.PRDdesc|safe}}</small>
               </div>
-              <span class="text-muted">${{order_item.getFinalPrice}}</span>
+              <span class="text-muted">{{order_item.getFinalPrice|currency:session_currency}} {{session_currency}}</span>
             </li>
           {% endfor %}
           
@@ -148,7 +149,7 @@
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total</span>
-            <strong>${{object.getTotal}}</strong>
+            <strong>{{object.getTotal|currency:session_currency}} {{session_currency}}</strong>
           </li>
         </ul>
         <!-- Cart -->
@@ -168,6 +169,7 @@
   </div>
 </main>
 
+{% endwith %}
 {% endblock body %}
 
 {% block js %}
@@ -191,7 +193,7 @@ use_default_shipping.change(function() {
     } else {
         hideable_shipping_form.show();
     }
-})
+});
 
 </script>
 {% endblock js %}
