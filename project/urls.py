@@ -18,7 +18,6 @@ urlpatterns += [
     path('admin/', admin.site.urls),
     path('',include('product.urls',namespace='products')),
     path('',include('clients.urls',namespace='clients')),
-    path('designer/',include('designer.urls',namespace='designer')),
     path('accounts/', include('allauth.urls')),
     path('charts/',include('charts.urls',namespace='charts')),
     path('paypal/',include('paypal.standard.ipn.urls')),

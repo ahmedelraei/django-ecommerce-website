@@ -92,56 +92,33 @@ body{
 /* End upper-navbar */
 
 .curr_switch{
-    position: absolute;
-    right: 10px;
+    padding: 6px;
 }
 .curr_switch select{
-    height: 40px;
-    background: rgba(0, 0, 0, 0);
+    font-size: 0.7rem;
 }
 .curr_switch select option:not(:checked) {
-    color: #000;
 }
-
 
 .lang_switch{
-    position: absolute;
-    right: 70px;
-
+    padding: 6px;
 }
-
 .lang_switch select{
-    height: 40px;
-    background: rgba(0, 0, 0, 0);
+    font-size: 0.7rem;
+    text-transform: uppercase;
 }
 .lang_switch select option:not(:checked) {
-    color: #000;
 }
-/* RTL */
-
-.curr_switch_rtl{
-    position: absolute;
-    left: 10px;
-}
-.curr_switch_rtl select{
-    height: 40px;
-    background: rgba(0, 0, 0, 0);
-}
-.curr_switch_rtl select option:not(:checked) {
-    color: #000;
+@media only screen and (max-width:411px){
+    .lang_switch{
+        display: none;
+    }
+    #site-logo img {
+        max-height: 100px !important;
+        max-width: 100px !important;
+    }
 }
 
-.lang_switch_rtl{
-    position: absolute;
-    left: 70px;
-}
-.lang_switch_rtl select{
-    height: 40px;
-    background: rgba(0, 0, 0, 0);
-}
-.lang_slang_switch_rtlwitch select option:not(:checked) {
-    color: #000;
-}
 
 /* Start navbar */
 

@@ -36,24 +36,28 @@
           <a class="nav-link active" href="#">{% trans "Privacy Policy" %}</a>
           <a class="nav-link" href="{% url 'clients:track-order' %}">{% trans "Tracking Order" %}</a>
           <a class="nav-link" href="#">{% trans "Support" %}</a>
-          <div class="curr_switch">
-            <form id="currency_switcher" method="POST" action="{% url 'clients:select-currency' %}">
-              {% csrf_token %}
-              <select name="currency" onchange="this.form.submit()">
-                {% for currency in CURRENCIES %}
-                  <option value="{{currency.code}}"
-                  
-                  {% ifequal currency.code request.session.currency %}
-                    selected="selected"
-                  {% endifequal %}
-                  >
-                  {{currency.code}}
-                  </option>
-                {% endfor %}
-              </select>
-            </form>
-          </div>
-          <div class="lang_switch">
+          <li class="nav-item">
+            <div class="curr_switch">
+              <form id="currency_switcher" method="POST" action="{% url 'clients:select-currency' %}">
+                {% csrf_token %}
+                <select name="currency" onchange="this.form.submit()">
+                  {% for currency in CURRENCIES %}
+                    <option value="{{currency.code}}"
+                    
+                    {% ifequal currency.code request.session.currency %}
+                      selected="selected"
+                    {% endifequal %}
+                    >
+                    {{currency.code}}
+                    </option>
+                  {% endfor %}
+                </select>
+              </form>
+            </div>
+        </li>
+
+          <li class="nav-item">
+            <div class="lang_switch">
             <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
                 <select name="language" onchange="this.form.submit()">
                     {% get_current_language as LANGUAGE_CODE %}
@@ -61,22 +65,21 @@
                     {% get_language_info_list for LANGUAGES as languages %}
                     {% for language in languages %}
                         <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                          {{ language.name_local }}
+                          {{ language.code }}
                         </option>
                     {% endfor %}
                 </select>
             </form>
           </div>
-        <script>
-        // ################### RTL ###################
-          if ( '{{LANGUAGE_CODE}}' === 'ar'){
-            document.head.innerHTML += `
-              <link rel="stylesheet" href="{% static 'site_static/css/bootstrap-rtl.css'%}">
-            `
-            document.querySelector('.lang_switch').className = "lang_switch_rtl";
-            document.querySelector('.curr_switch').className = "curr_switch_rtl";
-          }
-        </script>
+          </li>
+          
+          <script>
+          // ##########a######### RTL ###################
+            if ( '{{LANGUAGE_CODE}}' === 'ar'){
+              document.head.innerHTML += `
+                <link rel="stylesheet" href="{% static 'site_static/css/bootstrap-rtl.css'%}">`
+            }
+          </script>
 
         </nav>
 

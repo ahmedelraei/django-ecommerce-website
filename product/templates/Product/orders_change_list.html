@@ -1,0 +1,56 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+
+{% block content_title %}
+{% endblock %}
+
+<canvas id="categoryChart" style="max-height:300px;max-width:600px;"></canvas>
+
+<script>
+    const endpoint = '/charts/api/';
+    var fetchedData = [];
+    var labels = [];
+    var mainLabel = '';
+    var chartType = 'bar';
+    $.ajax({
+        method: 'GET',
+        url: endpoint,
+        success: function(data){
+            labels = data.labels;
+            fetchedData = data.data;
+            mainLabel = data.mainLabel;
+            chartType = data.chartType;
+            console.log(data,labels);
+            handleChart(labels,fetchedData,mainLabel);
+        },
+        error: function(error){
+            console.log('error');
+            console.log(error);
+        }
+    });
+    
+    function handleChart(labels,fetchedData,mainLabel){
+        var config = {
+            type: chartType,
+            data: {
+                datasets: [{
+                    data: fetchedData,
+                    backgroundColor: [
+                        'red','blue','green','purple','cyan'
+                    ],
+                    label: mainLabel
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true
+            }
+        };
+        var ctx = document.getElementById('categoryChart').getContext('2d');
+        chart = new Chart(ctx, config);
+    }
+
+</script>
+{{block.super}}
+{% endblock content %}

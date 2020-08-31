@@ -13,6 +13,7 @@ import os
 import uuid
 from PIL import Image as _img
 from io import BytesIO
+from django.utils import timezone
 
 class Product(models.Model):
     PRDname  = models.CharField(max_length=100, verbose_name=_("Name:"))
@@ -29,7 +30,7 @@ class Product(models.Model):
     PRDdiscount = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("After Discount:") ,default=0)    
     PRDcost  = models.DecimalField(max_digits=20,decimal_places=3,verbose_name=_("Cost:"))
     stock_quantity = models.IntegerField(default=1,verbose_name=_("In Stock:"))
-    PRDcreated = models.DateTimeField(verbose_name=_("Created at:"))
+    PRDcreated = models.DateTimeField(default=timezone.now(),blank=True, null=True,verbose_name=_("Created at:"))
     PRDslug    = models.SlugField(max_length=255,unique=True,blank=True, null=True, verbose_name=_("URL:"),allow_unicode=True)
     PRDisNew = models.BooleanField(default=True, verbose_name=_("NEW:"))
     PRDisTrend = models.BooleanField(default=False,verbose_name=_("Trending:"))

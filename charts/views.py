@@ -23,7 +23,7 @@ class chartAPI(APIView):
             labels.append(cat.CATname)
         data = [1500,1000,2000,500,805]
         mainLabel = "views"
-        chartType = "bar"
+        chartType = "bar"   
         response = {
             "labels":labels,
             "data":data,

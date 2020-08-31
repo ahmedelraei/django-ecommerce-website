@@ -19,7 +19,6 @@ class ProductAdmin(ImportExportModelAdmin):
     list_editable = ('PRDprice','PRDdiscount','PRDslug')
     list_filter = ('PRDcategory','PRDbrand')
     search_fields = ('PRDname','PRDslug')
-    
 
 
 admin.site.register(Product,ProductAdmin)
@@ -50,7 +49,11 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 class inlineAddresses(admin.StackedInline):
     model = Address
+
+
 class OrderAdmin(admin.ModelAdmin):
+    change_list_template = 'Product/orders_change_list.html'
+    title = 'Hello'
     list_display = (
         'user',
         'ordered_date',
@@ -64,6 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
         'cancelled',
         'shipped',
         'delivered',
+        #'testHtml',
         )
     def get_payment_option(self,obj):
         try:
@@ -75,6 +79,14 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ('user',)
     list_filter = ('ordered_date','ordered','listed_date','orderTotal','payment__payment_type')
     search_fields = ('user__username','order_ref')
+    class Media:
+        js = ('site_static/js/Chart.min.js','site_static/js/jquery-3.4.1.min.js')
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = {'onsale':['Item 1','Item 2']}
+        return super(OrderAdmin, self).changelist_view(
+            request, extra_context=extra_context
+        )
 
 
 class ItemVariationAdmin(admin.ModelAdmin):
