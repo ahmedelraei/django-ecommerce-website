@@ -1,4 +1,4 @@
-# E-commerce-live-project
+# Django Ecommerce Website
 #### [Live Version Here](https://elraeistore.herokuapp.com/)
 
 This is an ecommerce website built with django, Django Rest Framework, js, jQuery , bootstrap, Postgres.
